@@ -1,12 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const songs = sequelize.define('songs', {
+  const song = sequelize.define('song', {
     artist: DataTypes.STRING,
     title: DataTypes.STRING,
     partyId: DataTypes.INTEGER
   }, {});
-  songs.associate = function(models) {
-    // associations can be defined here
+  song.associate = function(models) {
+    models.song.belongsTo(models.party)
   };
-  return songs;
+  return song;
 };

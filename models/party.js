@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     token: DataTypes.STRING
   }, {});
   party.associate = function(models) {
-    // associations can be defined here
+    models.party.belongsToMany(models.user, { through: 'partyUser' })
+    models.party.hasMany(models.song)
   };
   return party;
 };
