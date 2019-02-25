@@ -6,9 +6,9 @@ var flash = require('connect-flash');
 var express = require('express');
 var layouts = require('express-ejs-layouts');
 var parser = require('body-parser');
-var passport = require('./config/passportConfig')
+var passport = require('./config/passportConfig');
 // Declare a reference to the models folder, ./for the folder otherwise it'll look for a node module.
-var db = require('./models')
+var db = require('./models');
 var session = require('express-session');
 // Declare express instance to use;
 var app = express();
@@ -55,6 +55,5 @@ app.get('/', (req, res) => {
 // Include controllers
 app.use('/auth', require('./controllers/auth'));
 app.use('/profile', require('./controllers/profile'));
-
 
 app.listen(3000);
