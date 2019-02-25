@@ -11,6 +11,7 @@ module.exports = {
       token: {
         type: Sequelize.STRING
       },
+      partyname: Sequelize.TEXT,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

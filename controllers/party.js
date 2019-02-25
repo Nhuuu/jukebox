@@ -3,26 +3,30 @@ var router = express.Router();
 var db = require('../models');
 
 
-// Need post route for create party
+// Need post route for create party and redirect to jukebox using partyId
 router.get('/', (req, res) => {
-  res.render('parties/show');
+  res.render('parties/new');
 })
-
 
 
 // Get token page, tie to create party form
 router.get('/token', (req, res) => {
-  res.send('token is here!');
+  res.render('parties/token');
 })
 
 
-// Get main jukebox page, tie to join a party/nav for jukebox
+// POST route to create songs in the database
+
+
+
+// GET route for songs, pass through song object on render
+
+
+
+// Get main jukebox page, tie to join a party/nav, party Id is through req.body
 router.get('/jukebox', (req, res) => {
-  res.send('jukebox main page')
+  res.render('parties/jukebox');
 })
-
-
-
 
 
 module.exports = router;
