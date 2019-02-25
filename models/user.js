@@ -3,8 +3,6 @@ var bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define('user', {
-    firstname: DataTypes.STRING,
-    lastname: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
       validate: {
@@ -13,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    username: DataTypes.STRING,
     password: {
       type: DataTypes.STRING,
       validate: {
@@ -22,11 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    username: DataTypes.STRING,
-    dob: DataTypes.DATE,
-    bio: DataTypes.TEXT,
-    admin: DataTypes.BOOLEAN,
-    image: DataTypes.TEXT,
+    admin: DataTypes.BOOLEAN
   }, {
     hooks: {
       beforeCreate: ((pendingUser) => {
