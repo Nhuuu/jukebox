@@ -12,7 +12,12 @@ var db = require('./models')
 var session = require('express-session');
 // Declare express instance to use;
 var app = express();
+//for Spotify
+var SpotifyWebApi = require('spotify-web-api-node');
+var spotifyApi = new SpotifyWebApi();
 
+//spotify access token (remove token to env later)
+spotifyApi.setAccessToken('c9cf89e8ae6044f4800743423f2c8f4f');
 
 // Set the views to ejs
 app.set('view engine', 'ejs');
@@ -51,6 +56,17 @@ app.get('/', (req, res) => {
 	res.render('home');
 });
 
+// Search tracks whose name, album or artist contains 'Love'
+	app.post('/', function(req, res){
+	//console.log(req.body.artist);
+	spotifyApi.searchTracks(req.query)
+	.then(function(data){
+		res.render('results', {data: data.body});
+	})
+	.catch(err => {
+		console.log('error', { error: err });
+	});
+});	
 
 // Include controllers
 app.use('/auth', require('./controllers/auth'));
