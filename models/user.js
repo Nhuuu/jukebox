@@ -26,14 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     dob: DataTypes.DATE,
     bio: DataTypes.TEXT,
     admin: DataTypes.BOOLEAN,
-    image: {
-      type: DataTypes.TEXT,
-      validate: {
-        isUrl: {
-          msg: 'Aww, no pic? :('
-        }
-      }
-    } 
+    image: DataTypes.TEXT,
   }, {
     hooks: {
       beforeCreate: ((pendingUser) => {
