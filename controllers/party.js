@@ -39,17 +39,17 @@ router.post('/', (req, res) => {
 })
 
 // Get songs for jukebox when token is entered 
-router.get('/jukebox/', (req, res) => {
+router.get('/jukebox', (req, res) => {
   db.party.findOne({
-    where: { token: req.body.token },
-    include: [db.song]
+    where: { token: req.query.token },
+    // include: [db.song]
   })
   .then(party => {
-    db.song.findAll()
+    db.song.findAll({
+      where: {partyId: party.token}
+    })
     .then(foundSongs => {
-      console.log('Nhu', party)
-      console.log('Nhu', foundSongs)
-      // res.render('/jukebox', { party: party, songs: foundSongs })
+      res.render('parties/jukebox', { party: party, songs: foundSongs })
     })
     .catch(err => {
       console.log('Error finding songs', err)
