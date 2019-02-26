@@ -8,7 +8,51 @@ nav a {
 	font-weight: bold;
 	font-size: 28px;
 }
+nav ul a{
+	font-family: 'Baloo', cursive;
+}
 
 nav a:hover {
 	color: chartreuse;
+}
+
+nav .brand-logo {
+	font-family: 'Bungee Shade', cursive;
+}
+
+.join{
+	font-family: 'PT Sans', sans-serif;
+}
+
+#chatForm {
+	background: #fff; 
+	padding: 3px; 
+	position: fixed; 
+	bottom: 0; 
+	width: 100%; 
+	border-color: #000; 
+	border-top-style: solid; 
+	border-top-width: 1px;
+	width: 85%; 
+	margin-right: .5%;
+}
+
+.chatBox{
+	margin: 0; 
+	padding: 0; 
+	box-sizing: border-box;
+}
+
+#messages { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0;
+}
+
+#messages li { 
+	padding: 5px 10px;
+}
+
+#messages li:nth-child(odd) { 
+	background: #eee;
 }

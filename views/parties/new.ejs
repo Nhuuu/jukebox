@@ -1,18 +1,24 @@
-<div>
-  <h3>This is the Party page!</h3>
-  <form method="POST" action="/party">
-    <h5>Name of event:</h5>
-    <input type="text" name="partyname">
-    <h5>Secret passcode:</h5>
-    <input type="number" name="token">
-    <input type="submit" value="Create a party">
-  </form>
 
-<div>
-  <h3>Join a Party!</h3>
-  <form>
-    <h5>Enter Passcode:</h5>
-    <input type="number" name="token">
-    <input type="submit" value="Enter my party">
-  </form>
+<div class="row">
+  <div class="s12 m4 l8 join">
+      <h3>This is the Party page!</h3>
+      <form method="POST" action="/party">
+        <h5>Name of event:</h5>
+        <input type="text" name="partyname">
+        <h5>Secret passcode:</h5>
+        <input type="number" name="token" min="3" max="8">
+        <button class="btn waves-effect waves-light grey darken-4" type="submit" name="action">Create a party<i class="material-icons right">group_add</i></button>
+      </form>
+  </div>
+</div>
+
+<div class="row">
+  <div class="s12 m4 l8 join">
+      <h3>Join a Party!</h3>
+      <form method="GET" action='/jukebox/'>
+        <h5>Enter Passcode:</h5>
+        <input type="number" name="token">
+        <button class="btn waves-effect waves-light grey darken-4" type="submit" name="action">Enter my party<i class="material-icons right">mood</i></button>
+      </form>
+  </div>
 </div>
