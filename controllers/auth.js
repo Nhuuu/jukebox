@@ -9,7 +9,7 @@ router.get('/login', (req, res) => {
 
 // LOOK into this one more
 router.post('/login', passport.authenticate('local', {
-	successRedirect: '/profile',
+	successRedirect: '/party',
 	successFlash: 'Yay, login successful!',
 	failureRedirect: '/auth/login',
 	failureFlash: 'Invalid Credentials'

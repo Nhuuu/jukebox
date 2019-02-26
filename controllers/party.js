@@ -9,35 +9,65 @@ router.get('/', (req, res) => {
 })
 
 //Need post route for create party and redirect to jukebox using partyId
+// router.post('/', (req, res) => {
+//   db.user.findOne({
+//     where: {id: req.user.id},
+//     // include: [db.party]
+//   })
+//   .then(function(party){
+//     async.forEach(party, function(p, done){
+//       db.party.findOrCreate({
+//         where: {
+//           partyname: req.body.partyname,
+//           token: req.body.token
+//         }
+//       })
+//       .spread(function(newParty, created){
+//         user.addParty(newParty)
+//         .then(function(){
+//           done();
+//         }).catch(done);
+//       })
+//       .catch(done);
+//       }, function(){
+//         res.redirect('/parties/jukebox');
+//       })
+//     })
+//   .catch(function(err){
+//     console.log(err);
+//   })
+// });
+
+
+
 router.post('/', (req, res) => {
-  db.user.findOne({
-    where: {id: req.user.id},
-    include: [db.party]
+  db.user.find({
+    where: {id: req.user.id}
   })
-  .then(function(party){
-    async.forEach(parties, function(p, done){
-      db.party.findOrCreate({
-        where: {
-          partyname: req.body.partyname,
-          token: req.body.token
-        }
+  .then(function(user){
+    db.party.findOrCreate({
+      where: {
+        partyname: req.body.partyname,
+        token: req.body.token 
+      }
+    })
+    .spread(function(party, created){
+      user.addParty(party)
+      .then(function(party){
+        res.redirect('/parties/jukebox'); 
       })
-      .spread(function(newParty, created){
-        user.addParty(newParty)
-        .then(function(){
-          done();
-        }).catch(done);
-      })
-      .catch(done);
-      }, function(){
-        res.redirect('/parties/jukebox');
+      .catch(function(err){
+        console.log(err)
       })
     })
-  .catch(function(err){
-    console.log(err);
+    .catch(err => {
+      console.log(err)
+    })
   })
-});
-
+  .catch(err => {
+    console.log(err)
+  })
+})
 
 // Get token page, tie to create party form
 router.get('/token', (req, res) => {
@@ -46,26 +76,26 @@ router.get('/token', (req, res) => {
 
 
 // POST route to create songs in the database tied to the partyId
-router.post('/song/:id', (req, res) => {
-  db.party.findOne({
-    where: {id: req.params.id}
-  })
-  .then(party => {
-    db.song.create({
-      artist: req.body.artist,
-      title: req.body.title
-    })
-    .then(song => {
-      console.log(song) 
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  })
-  .catch(err => {
-    console.log(err)
-  })
-})
+// router.post('/song/:id', (req, res) => {
+//   db.party.findOne({
+//     where: {id: req.params.id}
+//   })
+//   .then(party => {
+//     db.song.create({
+//       artist: req.body.artist,
+//       title: req.body.title
+//     })
+//     .then(song => {
+//       console.log(song) 
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     })
+//   })
+//   .catch(err => {
+//     console.log(err)
+//   })
+// })
 
 
 // GET route for songs, pass through song object on render

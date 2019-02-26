@@ -34,8 +34,8 @@ router.post('/playlist', (req, res) => {
     console.log(data)
     spotifyApi.getArtistTopTracks(data.body.artists.items[0].id, 'US')
  		.then(function(track){
-       console.log('we here', track)
- 			// res.send('parties/jukebox', { artist: data.body, tracks: track.body.tracks.slice( 0 )});
+      console.log('we here', track)
+ 		  // res.send('parties/jukebox', { artist: data.body, tracks: track.body.tracks.slice( 0 )});
  		})
  		.catch(function(err){
       console.log(err);
