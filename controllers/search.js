@@ -9,16 +9,10 @@ var spotifyApi = new SpotifyWebApi();
 //spotify access token (remove token to env later)
 spotifyApi.setAccessToken(process.env.SPOTIFY_API);
 
-
 var spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_API,
   clientSecret: process.env.SPOTIFY_CLIENT
 });
-
-
-
-
-
 
 // Retrieve an access token
 spotifyApi
@@ -29,7 +23,7 @@ spotifyApi
   })
 
 router.get('/', (req, res) => {   
-  res.render('parties/jukebox');
+  res.render('parties/search');
 })
 
 // router.post('/playlist', (req, res) => {
@@ -51,11 +45,15 @@ router.get('/', (req, res) => {
 // 	});
 // });
 
-router.post('/playlist', (req, res) => {
+router.post('/guestinput', (req, res) => {
   console.log('user input', req.body);
-  spotifyApi.searchTracks(req.body.title)
+  console.log('track:', req.body.track, ' artist:', req.body.artist,'')
+  // var myJSON = JSON.stringify(req.body);
+  // { artist: 'ariana grande', track: 'god is a woman' }
+  console.log('myJSON', myJSON)
+  spotifyApi.searchTracks(myJSON)
     .then(function(data) {
-      console.log('user title search:', data.body);
+      console.log('user title search:', data);
     }, function(err) {
       console.error(err);
     });

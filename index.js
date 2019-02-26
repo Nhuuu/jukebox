@@ -17,6 +17,9 @@ var loggedIn = require('./middleware/loggedIn');
 //for Spotify
 var SpotifyWebApi = require('spotify-web-api-node');
 var spotifyApi = new SpotifyWebApi();
+//for socket.io
+var io = require('socket.io');
+
 
 //spotify access token (remove token to env later)
 spotifyApi.setAccessToken(process.env.SPOTIFY_API);
@@ -59,10 +62,10 @@ app.get('/', (req, res) => {
 });
 
 // Search tracks whose name, album or artist contains 'Love'
-	app.post('/', function(req, res){
+app.post('/', (req, res) => {
 	//console.log(req.body.artist);
 	spotifyApi.searchTracks(req.query)
-	.then(function(data){
+	.then(data => {
 		res.render('results', {data: data.body});
 	})
 	.catch(err => {
@@ -70,10 +73,19 @@ app.get('/', (req, res) => {
 	});
 });	
 
+// app.get('*', (req, res, next) => {
+// 	res.status(404).send({ message: 'Not Found' });
+// });
+
 // Include controllers
 app.use('/auth', require('./controllers/auth'));
 app.use('/profile', require('./controllers/profile'));
-app.use('/party', loggedIn, require('./controllers/party')); 
-app.use('/jukebox', loggedIn, require('./controllers/jukebox'));
+// app.use('/party', loggedIn, require('./controllers/party')); 
+// app.use('/jukebox', loggedIn, require('./controllers/jukebox'));
+// app.use('/search', loggedIn, require('./controllers/search'));
+app.use('/party', require('./controllers/party')); 
+app.use('/jukebox', require('./controllers/jukebox'));
+app.use('/search', require('./controllers/search'));
+app.use('/chat', require('./controllers/chat'));
 
 app.listen(3000);

@@ -1,4 +1,4 @@
-var async = require('async');
+// var async = require('async');
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
@@ -8,55 +8,24 @@ router.get('/', (req, res) => {
     res.render('parties/new');
 })
 
-//Need post route for create party and redirect to jukebox using partyId
-// router.post('/', (req, res) => {
-//   db.user.findOne({
-//     where: {id: req.user.id},
-//     // include: [db.party]
-//   })
-//   .then(function(party){
-//     async.forEach(party, function(p, done){
-//       db.party.findOrCreate({
-//         where: {
-//           partyname: req.body.partyname,
-//           token: req.body.token
-//         }
-//       })
-//       .spread(function(newParty, created){
-//         user.addParty(newParty)
-//         .then(function(){
-//           done();
-//         }).catch(done);
-//       })
-//       .catch(done);
-//       }, function(){
-//         res.redirect('/parties/jukebox');
-//       })
-//     })
-//   .catch(function(err){
-//     console.log(err);
-//   })
-// });
-
-
-
+// POST route to create a new party and redirect to jukebox using partyId
 router.post('/', (req, res) => {
   db.user.find({
     where: {id: req.user.id}
   })
-  .then(function(user){
+  .then(user => {
     db.party.findOrCreate({
       where: {
         partyname: req.body.partyname,
         token: req.body.token 
       }
     })
-    .spread(function(party, created){
+    .spread((party, created) => {
       user.addParty(party)
-      .then(function(party){
+      .then(party => {
         res.redirect('/parties/jukebox'); 
       })
-      .catch(function(err){
+      .catch(err => {
         console.log(err)
       })
     })
@@ -69,10 +38,29 @@ router.post('/', (req, res) => {
   })
 })
 
-// Get token page, tie to create party form
-router.get('/token', (req, res) => {
-  res.render('parties/token');
+// Get songs for jukebox when token is entered 
+router.get('/jukebox/', (req, res) => {
+  db.party.findOne({
+    where: { token: req.body.token },
+    include: [db.song]
+  })
+  .then(party => {
+    db.song.findAll()
+    .then(foundSongs => {
+      console.log('Nhu', party)
+      console.log('Nhu', foundSongs)
+      // res.render('/jukebox', { party: party, songs: foundSongs })
+    })
+    .catch(err => {
+      console.log('Error finding songs', err)
+    })
+  })
+  .catch(err => {
+    console.log('Error using token to get jukebox', err)
+  })
 })
+
+
 
 
 // POST route to create songs in the database tied to the partyId
