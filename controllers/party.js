@@ -1,4 +1,3 @@
-// var async = require('async');
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
@@ -22,6 +21,7 @@ router.post('/', (req, res) => {
       }
     })
     .spread((party, created) => {
+
       user.addParty(party)
       .then(party => {
         res.redirect('/parties/jukebox'); 
