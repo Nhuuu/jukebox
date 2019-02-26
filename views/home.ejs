@@ -1,4 +1,37 @@
-<h1>Home Page</h1>
+<section class="homebackground">
+  <div class="wrapbox">
+    <h1 class="titlewrapper">
+      <span class="title">Get your songs,</span>
+      <span class="title">let DJ drop the beat,</span>
+      <span class="title">and enjoy the party</span>
+    </h1>
+  </div>
+</section>
 
+<div class="btnwrapper">
+  <label>Welcome back!</label>
+  <a href="/auth/login"><button class="btn waves-effect waves-light grey darken-4">Login</button></a>
+  <label>Not a member yet?</label>
+  <a href="/auth/signup"><button class="btn waves-effect waves-light grey darken-4">Sign Up</button></a>
+</div>
 
-<h2>Sign up or log in buttons</h2>
+<script>
+$(document).ready(function() {
+  $(".title").lettering();
+  $(".button").lettering();
+});
+$(document).ready(function() {
+  animation();
+}, 1000);
+$('.button').click(function() {
+  animation();
+});
+function animation() {
+  var title1 = new TimelineMax();
+  title1.to(".button", 0, {visibility: 'hidden', opacity: 0})
+  title1.staggerFromTo(".title span", 0.5, 
+  {ease: Back.easeOut.config(1.7), opacity: 0, bottom: -80},
+  {ease: Back.easeOut.config(1.7), opacity: 1, bottom: 0}, 0.05);
+  title1.to(".button", 0.2, {visibility: 'visible' ,opacity: 1})
+}
+</script>

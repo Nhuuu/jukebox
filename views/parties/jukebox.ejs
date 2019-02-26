@@ -1,9 +1,21 @@
 <div>
-  <h2>Party name</h2>
+  <h1><%= party.partyname %> - <%= party.token %></h1>
   <div>
     <h2>Currently Playing:</h2>
+    <h2></h2>
   </div>
   <div class="queue-box">
-    <h2>All the songs</h2>
+    <h2>All the songs in the queue.</h2>
+    <% songs.forEach(song => { %>
+      <ul>
+        <li><%= song.artist %>, <%= song.title %></li>
+      </ul>
+    <% }) %>
+  <div> 
+</div>
+      <ul>
+        <li><%= song.artist %>, <%= song.title %></li>
+      </ul>
+    <% }) %>
   <div> 
 </div>

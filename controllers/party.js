@@ -1,4 +1,3 @@
-// var async = require('async');
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
@@ -10,6 +9,7 @@ router.get('/', (req, res) => {
 
 // POST route to create a new party and redirect to jukebox using partyId
 router.post('/', (req, res) => {
+  var playlist = req.body.partyname;
   db.user.find({
     where: {id: req.user.id}
   })
@@ -21,6 +21,7 @@ router.post('/', (req, res) => {
       }
     })
     .spread((party, created) => {
+
       user.addParty(party)
       .then(party => {
         res.redirect('/parties/jukebox'); 
@@ -38,18 +39,17 @@ router.post('/', (req, res) => {
   })
 })
 
-// Get songs for jukebox when token is entered 
-router.get('/jukebox/', (req, res) => {
+// Get party and  all songs for jukebox when token is entered.
+router.get('/jukebox', (req, res) => {
   db.party.findOne({
-    where: { token: req.body.token },
-    include: [db.song]
+    where: { token: req.query.token },
   })
   .then(party => {
-    db.song.findAll()
+    db.song.findAll({
+      where: {partyId: party.token}
+    })
     .then(foundSongs => {
-      console.log('Nhu', party)
-      console.log('Nhu', foundSongs)
-      // res.render('/jukebox', { party: party, songs: foundSongs })
+      res.render('parties/jukebox', { party: party, songs: foundSongs })
     })
     .catch(err => {
       console.log('Error finding songs', err)
