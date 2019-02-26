@@ -39,7 +39,7 @@ router.post('/signup', (req, res) => {
 		.spread((user, created) => {
 			if(created){
 				req.flash('success', 'Yay! Good job! You signed up!');
-				res.redirect('/profile');
+				res.redirect('/party');
 			}
 			else {
 				req.flash('error', 'Username already in use!');
