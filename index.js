@@ -71,5 +71,7 @@ app.get('/', (req, res) => {
 // Include controllers
 app.use('/auth', require('./controllers/auth'));
 app.use('/profile', require('./controllers/profile'));
+app.use('/party', require('./controllers/party'));
+
 
 app.listen(3000);
