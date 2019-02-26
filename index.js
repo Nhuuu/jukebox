@@ -12,12 +12,14 @@ var db = require('./models');
 var session = require('express-session');
 // Declare express instance to use;
 var app = express();
+//bring loggedIn middleware
+var loggedIn = require('./middleware/loggedIn');
 //for Spotify
 var SpotifyWebApi = require('spotify-web-api-node');
 var spotifyApi = new SpotifyWebApi();
 
 //spotify access token (remove token to env later)
-spotifyApi.setAccessToken('c9cf89e8ae6044f4800743423f2c8f4f');
+spotifyApi.setAccessToken(process.env.SPOTIFY_API);
 
 // Set the views to ejs
 app.set('view engine', 'ejs');
@@ -71,7 +73,7 @@ app.get('/', (req, res) => {
 // Include controllers
 app.use('/auth', require('./controllers/auth'));
 app.use('/profile', require('./controllers/profile'));
-app.use('/party', require('./controllers/party'));
-
+app.use('/party', loggedIn, require('./controllers/party'));
+app.use('/jukebox', loggedIn, require('./controllers/jukebox'));
 
 app.listen(3000);
