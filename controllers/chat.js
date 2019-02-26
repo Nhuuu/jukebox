@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var io = require('socket.io');
 
 //Display the group chat room
 router.get('/', (req, res) => {   

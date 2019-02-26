@@ -77,6 +77,7 @@ app.post('/', (req, res) => {
 // 	res.status(404).send({ message: 'Not Found' });
 // });
 
+
 // Include controllers
 app.use('/auth', require('./controllers/auth'));
 app.use('/profile', require('./controllers/profile'));
