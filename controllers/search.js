@@ -46,18 +46,15 @@ router.get('/', (req, res) => {
 // });
 
 router.post('/guestinput', (req, res) => {
-  console.log('user input', req.body);
-  console.log(""'track:', req.body.track, ' artist:', req.body.artist,'')
-  // var myJSON = JSON.stringify(req.body);
-  // { artist: 'ariana grande', track: 'god is a woman' }
-  console.log('myJSON', myJSON)
-  spotifyApi.searchTracks(myJSON)
+  var myJSON = JSON.stringify(req.body);
+  spotifyApi.searchTracks(String('track:')+req.body.track+String(' artist:')+req.body.artist)
     .then(function(data) {
-      console.log('user title search:', data);
+      res.send({data: data.body.artists.items[0].id});
     }, function(err) {
       console.error(err);
     });
   });
+
 
 
   module.exports = router;
