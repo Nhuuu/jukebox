@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
 
 // POST route to create a new party and redirect to jukebox using partyId
 router.post('/', (req, res) => {
+  var playlist = req.body.partyname;
   db.user.find({
     where: {id: req.user.id}
   })
@@ -38,11 +39,10 @@ router.post('/', (req, res) => {
   })
 })
 
-// Get songs for jukebox when token is entered 
+// Get party and  all songs for jukebox when token is entered.
 router.get('/jukebox', (req, res) => {
   db.party.findOne({
     where: { token: req.query.token },
-    // include: [db.song]
   })
   .then(party => {
     db.song.findAll({

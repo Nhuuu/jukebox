@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
 
 router.post('/guestinput', (req, res) => {
   console.log('user input', req.body);
-  console.log('track:', req.body.track, ' artist:', req.body.artist,'')
+  console.log(""'track:', req.body.track, ' artist:', req.body.artist,'')
   // var myJSON = JSON.stringify(req.body);
   // { artist: 'ariana grande', track: 'god is a woman' }
   console.log('myJSON', myJSON)
