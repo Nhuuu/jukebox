@@ -49,9 +49,9 @@ router.post('/guestinput', (req, res) => {
   console.log('user input', req.body);
   // { artist: 'ariana grande', track: 'god is a woman' }
   console.log('track:',req.body.track, 'artist:',req.body.artist,'')
-  // var myJSON = JSON.stringify(req.body);
-  // console.log('stringify', myJSON)
-  spotifyApi.searchTracks((String('track:',req.body.track, 'artist:',req.body.artist,'')))
+  var myJSON = JSON.stringify(req.body);
+  console.log('stringify', myJSON)
+  spotifyApi.searchTracks(myJSON)
     // ('track:Alright artist:Kendrick Lamar')
     .then(function(data) {
       console.error(data.body);
