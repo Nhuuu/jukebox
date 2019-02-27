@@ -12,17 +12,12 @@ var db = require('./models');
 var session = require('express-session');
 // Declare express instance to use;
 var app = express();
-//bring loggedIn middleware
-var loggedIn = require('./middleware/loggedIn');
 //for Spotify
 var SpotifyWebApi = require('spotify-web-api-node');
 var spotifyApi = new SpotifyWebApi();
-//for socket.io
-var io = require('socket.io');
-
 
 //spotify access token (remove token to env later)
-spotifyApi.setAccessToken(process.env.SPOTIFY_API);
+spotifyApi.setAccessToken('c9cf89e8ae6044f4800743423f2c8f4f');
 
 // Set the views to ejs
 app.set('view engine', 'ejs');
@@ -62,10 +57,10 @@ app.get('/', (req, res) => {
 });
 
 // Search tracks whose name, album or artist contains 'Love'
-app.post('/', (req, res) => {
+	app.post('/', function(req, res){
 	//console.log(req.body.artist);
 	spotifyApi.searchTracks(req.query)
-	.then(data => {
+	.then(function(data){
 		res.render('results', {data: data.body});
 	})
 	.catch(err => {
@@ -73,20 +68,9 @@ app.post('/', (req, res) => {
 	});
 });	
 
-// app.get('*', (req, res, next) => {
-// 	res.status(404).send({ message: 'Not Found' });
-// });
-
-
 // Include controllers
 app.use('/auth', require('./controllers/auth'));
 app.use('/profile', require('./controllers/profile'));
-// app.use('/party', loggedIn, require('./controllers/party')); 
-// app.use('/jukebox', loggedIn, require('./controllers/jukebox'));
-// app.use('/search', loggedIn, require('./controllers/search'));
-app.use('/party', require('./controllers/party')); 
-app.use('/jukebox', require('./controllers/jukebox'));
-app.use('/search', require('./controllers/search'));
-app.use('/chat', require('./controllers/chat'));
+app.use('/party', require('./controllers/party'));
 
 app.listen(3000);
