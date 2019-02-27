@@ -16,10 +16,6 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-
-
-
-
 // Retrieve an access token
 spotifyApi
   .clientCredentialsGrant()
@@ -28,9 +24,19 @@ spotifyApi
     spotifyApi.setAccessToken(data.body['access_token']);
   })
 
-router.get('/', (req, res) => {   
-  res.render('parties/jukebox');
-})
+  // NHUUUUU
+// router.get('/jkbx', (req, res) => {   
+//   db.partyUsers.find{
+//    where: {
+//     id: req.user.id
+//   }
+// })})
+//   .then(party => {
+//     res.render('parties/jukebox', {party: party});
+//     console.log(party);
+//   })
+
+// })
 
 // router.post('/playlist', (req, res) => {
 //   console.log(req.body.artist);
