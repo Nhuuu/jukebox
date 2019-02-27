@@ -120,3 +120,12 @@ nav .brand-logo {
 #messages li:nth-child(odd) { 
 	background: #eee;
 } */
+
+.queue-box{
+	width: 600px;
+	background-color: #3B3B3B;
+	color: white;
+	border-radius: 10px;
+	box-shadow:5px 5px #8C8C8C;
+	padding: 5px;
+}

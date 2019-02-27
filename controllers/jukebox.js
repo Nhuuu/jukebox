@@ -16,10 +16,6 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-
-
-
-
 // Retrieve an access token
 spotifyApi
   .clientCredentialsGrant()
