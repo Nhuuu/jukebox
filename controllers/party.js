@@ -23,10 +23,7 @@ router.post('/', (req, res) => {
     .spread((party, created) => {
       user.addParty(party)
       .then(party => {
-        console.log('party here', party.partyname)
-        // res.send('data:', party)
-        // res.render('parties/jukebox', { party: party, songs: [] });
-        res.redirect('/jukebox')
+        res.redirect(`party/jukebox?token=${req.body.token}&action=`) 
       })
       .catch(err => {
         console.log("error 1", err)
