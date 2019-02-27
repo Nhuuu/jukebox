@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
 
       user.addParty(party)
       .then(party => {
-        res.redirect('/parties/jukebox'); 
+        res.redirect('/jukebox'); 
       })
       .catch(err => {
         console.log(err)
@@ -45,6 +45,7 @@ router.get('/jukebox', (req, res) => {
     where: { token: req.query.token },
   })
   .then(party => {
+    console.log(party)
     db.song.findAll({
       where: {partyId: party.token}
     })

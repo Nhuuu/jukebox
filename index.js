@@ -89,4 +89,4 @@ app.use('/jukebox', require('./controllers/jukebox'));
 app.use('/search', require('./controllers/search'));
 app.use('/chat', require('./controllers/chat'));
 
-app.listen(3000);
+app.listen(8000);
