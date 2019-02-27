@@ -1,0 +1,14 @@
+<h3>Results</h3>
+
+<% for(var i=0; i<results.items.length; i++) { %>
+<ul class="collection">
+    <li class="collection-item avatar z-depth-5">
+      <img src="<%= results.items[i].album.images[1].url %>" alt="album" class="circle">
+      Track: <span class="title"><%= results.items[i].name %></span>
+      <p>Album: <span class="trackname"><%= results.items[i].album.name %></span><br>
+         Track:  <span class="trackname"><%= results.items[i].track_number %></span>
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">library_add</i></a>
+    </li>
+  </ul>
+<% }; %>

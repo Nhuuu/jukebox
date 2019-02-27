@@ -84,7 +84,6 @@ app.use('/auth', require('./controllers/auth'));
 app.use('/party', loggedIn, require('./controllers/party')); 
 app.use('/jukebox', loggedIn, require('./controllers/jukebox'));
 app.use('/search', loggedIn, require('./controllers/search'));
-app.use('/chat', loggedIn, require('./controllers/chat'));
 // app.use('/party', require('./controllers/party')); 
 // app.use('/jukebox', require('./controllers/jukebox'));
 // app.use('/search', require('./controllers/search'));

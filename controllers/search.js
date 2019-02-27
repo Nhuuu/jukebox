@@ -49,7 +49,8 @@ router.post('/guestinput', (req, res) => {
   var myJSON = JSON.stringify(req.body);
   spotifyApi.searchTracks(String('track:')+req.body.track+String(' artist:')+req.body.artist)
     .then(function(data) {
-      res.send({result: data.body.tracks.items[0].album.id});
+      res.render('parties/search-result', {results: data.body.tracks});
+      // res.send({result: data.body.tracks.items[0].album.id});
     }, function(err) {
       console.error(err);
     });

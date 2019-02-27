@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
     .spread((party, created) => {
       user.addParty(party)
       .then(party => {
-        res.redirect(`party/jukebox?token=${req.body.token}&action=`) 
+        res.redirect(`party/host?token=${req.body.token}&action=`) 
       })
       .catch(err => {
         console.log("error 1", err)
@@ -38,18 +38,38 @@ router.post('/', (req, res) => {
   })
 })
 
+router.get('/host', (req, res) => {   
+  db.party.findOne({
+    where: { token: req.body.token },
+  })
+  .then(party => {
+    db.song.findAll({
+      where: { id: party.id } //check this
+    })
+    .then(foundSongs => {
+      res.render('parties/host', { party: party, songs: foundSongs })
+    })
+    .catch(err => {
+      console.log('Error finding songs', err)
+    })
+  })
+  .catch(err => {
+    console.log('Error using token to get jukebox', err)
+  })
+
+})
+
 // Get party and all songs for jukebox when token is entered.
 router.get('/jukebox', (req, res) => {
   db.party.findOne({
     where: { token: req.query.token },
   })
   .then(party => {
-    console.log(party)
     db.song.findAll({
       where: { id: party.id } //check this
     })
     .then(foundSongs => {
-      res.render('parties/jukebox', { party: party, songs: foundSongs })
+      res.render('parties/guest', { party: party, songs: foundSongs })
     })
     .catch(err => {
       console.log('Error finding songs', err)
@@ -61,6 +81,25 @@ router.get('/jukebox', (req, res) => {
 })
 
 
+// router.get('/host', (req, res) => {
+//   db.party.findOne({
+//     where: { token: req.body.token },
+//   })
+//   .then(party => {
+//     db.song.findAll({
+//       where: { id: party.id } //check this
+//     })
+//     .then(foundSongs => {
+//       res.render('parties/host', { party: party, songs: foundSongs })
+//     })
+//     .catch(err => {
+//       console.log('Error finding songs', err)
+//     })
+//   })
+//   .catch(err => {
+//     console.log('Error using token to get jukebox', err)
+//   })
+// })
 
 
 // POST route to create songs in the database tied to the partyId

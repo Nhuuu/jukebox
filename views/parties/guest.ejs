@@ -1,0 +1,18 @@
+<div class="rain">
+  <div class="border start">
+    <div class="jukebox">
+      <h1><%= party.partyname %> - <%= party.token %></h1>
+      <div>
+        <h2>Currently Playing:</h2>
+      </div>
+      <h3>All the songs in the queue.</h3>
+      <div>
+        <% songs.forEach(song => { %>
+          <ul>
+            <li><%= song.artist %>, <%= song.title %></li>
+          </ul>
+        <% }) %>
+      </div>
+    </div>
+  </div> 
+</div>
