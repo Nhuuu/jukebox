@@ -28,8 +28,18 @@ spotifyApi
     spotifyApi.setAccessToken(data.body['access_token']);
   })
 
-router.get('/', (req, res) => {   
-  res.render('parties/jukebox');
+router.get('/jkbx', (req, res) => {   
+  
+  db.party.findOne({
+    where: {
+      token: req.body.token
+    }
+  })
+  .then(party => {
+    res.render('parties/jukebox', {party: party});
+    console.log(party);
+  })
+
 })
 
 // router.post('/playlist', (req, res) => {
