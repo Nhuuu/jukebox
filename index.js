@@ -80,13 +80,14 @@ app.post('/', (req, res) => {
 
 // Include controllers
 app.use('/auth', require('./controllers/auth'));
-app.use('/profile', require('./controllers/profile'));
-// app.use('/party', loggedIn, require('./controllers/party')); 
-// app.use('/jukebox', loggedIn, require('./controllers/jukebox'));
-// app.use('/search', loggedIn, require('./controllers/search'));
-app.use('/party', require('./controllers/party')); 
-app.use('/jukebox', require('./controllers/jukebox'));
-app.use('/search', require('./controllers/search'));
-app.use('/chat', require('./controllers/chat'));
+// app.use('/profile', require('./controllers/profile'));
+app.use('/party', loggedIn, require('./controllers/party')); 
+app.use('/jukebox', loggedIn, require('./controllers/jukebox'));
+app.use('/search', loggedIn, require('./controllers/search'));
+app.use('/chat', loggedIn, require('./controllers/chat'));
+// app.use('/party', require('./controllers/party')); 
+// app.use('/jukebox', require('./controllers/jukebox'));
+// app.use('/search', require('./controllers/search'));
+
 
 app.listen(8000);

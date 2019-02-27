@@ -49,12 +49,14 @@ router.post('/guestinput', (req, res) => {
   var myJSON = JSON.stringify(req.body);
   spotifyApi.searchTracks(String('track:')+req.body.track+String(' artist:')+req.body.artist)
     .then(function(data) {
-      res.send({data: data.body.artists.items[0].id});
+      res.send({result: data.body.tracks.items[0].album.id});
     }, function(err) {
       console.error(err);
     });
   });
 
-
+router.get('/searchresult', (req, res) => {
+  
+})
 
   module.exports = router;

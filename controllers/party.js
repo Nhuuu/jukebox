@@ -21,25 +21,27 @@ router.post('/', (req, res) => {
       }
     })
     .spread((party, created) => {
-
       user.addParty(party)
       .then(party => {
-        res.redirect('/jukebox'); 
+        console.log('party here', party.partyname)
+        // res.send('data:', party)
+        // res.render('parties/jukebox', { party: party, songs: [] });
+        res.redirect('/jukebox')
       })
       .catch(err => {
-        console.log(err)
+        console.log("error 1", err)
       })
     })
     .catch(err => {
-      console.log(err)
+      console.log("error 2", err)
     })
   })
   .catch(err => {
-    console.log(err)
+    console.log("error 3", err)
   })
 })
 
-// Get party and  all songs for jukebox when token is entered.
+// Get party and all songs for jukebox when token is entered.
 router.get('/jukebox', (req, res) => {
   db.party.findOne({
     where: { token: req.query.token },
@@ -47,7 +49,7 @@ router.get('/jukebox', (req, res) => {
   .then(party => {
     console.log(party)
     db.song.findAll({
-      where: {partyId: party.token}
+      where: { id: party.id } //check this
     })
     .then(foundSongs => {
       res.render('parties/jukebox', { party: party, songs: foundSongs })
