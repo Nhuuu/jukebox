@@ -2,21 +2,27 @@
   <div class="border start">
     <div class="jukebox">
       <h1><%= party.partyname %> - <%= party.token %></h1>
-      <div>
-        <h2>Currently Playing:</h2>
-      </div>
+      <h2>Currently Playing:</h2>
       <h3>All the songs in the queue.</h3>
-      <!-- <div>
-        <% songs.forEach(song => { %>
-          <ul>
-            <li><%= song.artist %>, <%= song.title %></li>
-          </ul>
-        <% }) %>
-      </div> -->
 
-      <div class="play-wrapper">
-        <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="1000" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+      <div class="row">
+        <div class="col s12 m4 l8">
+        <div class='embed-container'>
+          <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="1000" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        </div>
+        </div>
       </div>
     </div>
   </div> 
+</div>
+
+<div class="rain">
+  <div class="border start"></div>
+    <form method="POST" action="/search" class="col s12">
+    <input name="name" type="hidden" value="<%= party.partyname %>">
+			<button class="btn waves-effect waves-light grey darken-4" type="submit">Track Search
+					<i class="material-icons right">send</i>
+				</button>
+    </form>
+  </div>  
 </div>

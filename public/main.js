@@ -6,8 +6,11 @@ $(document).ready(function(){
   // materialize side menu on mobile
   $('.sidenav').sidenav();
   // materialize carousel
-});
 
-$(document).ready(function(){
-  $('.collapsible').collapsible();
+
+  $(document).ready(function(){
+    $('.collapsible').collapsible();
+  });
+
+
 });

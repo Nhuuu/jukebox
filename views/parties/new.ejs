@@ -3,7 +3,7 @@
     <h4>Throw a new party</h4>
     <div class="rain">
       <div class="border start">
-        <form method="POST" action="/party/host">
+        <form method="POST" action="/party">
           <label for="partyname">Name of event:</label>
           <input type="text" name="partyname" id="partyname">
           <label for="token">Secret passcode:</label>
@@ -20,7 +20,7 @@
     <h4>Join a Party!</h4>
     <div class="rain">
       <div class="border start">
-        <form method="GET" action='/party/jukebox'>
+        <form method="GET" action='/party/guest'>
           <label for="token">Enter Passcode:</label>
           <input type="number" name="token" id="token">
           <button class="btn waves-effect waves-light grey darken-4" type="submit" name="action">Enter my party<i class="material-icons right">mood</i></button>

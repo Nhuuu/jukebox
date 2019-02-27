@@ -6,8 +6,6 @@ var db = require('../models');
 var SpotifyWebApi = require('spotify-web-api-node');
 var spotifyApi = new SpotifyWebApi();
 
-//spotify access token (remove token to env later)
-spotifyApi.setAccessToken(process.env.SPOTIFY_API);
 
 var spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_API,
@@ -22,8 +20,9 @@ spotifyApi
     spotifyApi.setAccessToken(data.body['access_token']);
   })
 
-router.get('/', (req, res) => {   
-  res.render('parties/search');
+router.post('/', (req, res) => {   
+  console.log('search route', req.body)
+  res.render('parties/search', {partytoken: req.body});
 })
 
 // router.post('/playlist', (req, res) => {
@@ -47,6 +46,7 @@ router.get('/', (req, res) => {
 
 router.post('/guestinput', (req, res) => {
   var myJSON = JSON.stringify(req.body);
+  console.log('doug search json', myJSON)
   spotifyApi.searchTracks(String('track:')+req.body.track+String(' artist:')+req.body.artist)
     .then(function(data) {
       res.render('parties/search-result', {results: data.body.tracks});
