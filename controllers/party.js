@@ -23,7 +23,13 @@ router.post('/', (req, res) => {
     .spread((party, created) => {
       user.addParty(party)
       .then(party => {
-        res.redirect(`party/host?token=${req.body.token}&action=`) 
+        spotifyApi.createPlaylist(req.body.partyname, { 'public' : false })
+        .then(data => {
+          console.log('Created playlist!', data);
+          res.redirect(`party/jukebox?token=${req.body.token}&action=`) 
+        }, (err) => {
+          console.log('Something went wrong!', err);
+        })
       })
       .catch(err => {
         console.log("error 1", err)
@@ -38,25 +44,8 @@ router.post('/', (req, res) => {
   })
 })
 
-router.get('/host', (req, res) => {   
-  db.party.findOne({
-    where: { token: req.body.token },
-  })
-  .then(party => {
-    db.song.findAll({
-      where: { id: party.id } //check this
-    })
-    .then(foundSongs => {
-      res.render('parties/host', { party: party, songs: foundSongs })
-    })
-    .catch(err => {
-      console.log('Error finding songs', err)
-    })
-  })
-  .catch(err => {
-    console.log('Error using token to get jukebox', err)
-  })
-
+router.get('/test', (req, res) => {
+  res.render('parties/testplayer');
 })
 
 // Get party and all songs for jukebox when token is entered.

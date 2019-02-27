@@ -6,12 +6,16 @@
         <h2>Currently Playing:</h2>
       </div>
       <h3>All the songs in the queue.</h3>
-      <div>
+      <!-- <div>
         <% songs.forEach(song => { %>
           <ul>
             <li><%= song.artist %>, <%= song.title %></li>
           </ul>
         <% }) %>
+      </div> -->
+
+      <div class="play-wrapper">
+        <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="1000" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
       </div>
     </div>
   </div> 

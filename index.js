@@ -80,7 +80,7 @@ app.post('/', (req, res) => {
 
 // Include controllers
 app.use('/auth', require('./controllers/auth'));
-// app.use('/profile', require('./controllers/profile'));
+app.use('/profile', require('./controllers/profile'));
 app.use('/party', loggedIn, require('./controllers/party')); 
 app.use('/jukebox', loggedIn, require('./controllers/jukebox'));
 app.use('/search', loggedIn, require('./controllers/search'));

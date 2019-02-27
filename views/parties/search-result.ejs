@@ -6,9 +6,13 @@
       <img src="<%= results.items[i].album.images[1].url %>" alt="album" class="circle">
       Track: <span class="title"><%= results.items[i].name %></span>
       <p>Album: <span class="trackname"><%= results.items[i].album.name %></span><br>
-         Track:  <span class="trackname"><%= results.items[i].track_number %></span>
+        Track:  <span class="trackname"><%= results.items[i].track_number %></span>
       </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">library_add</i></a>
+      <form method="POST" action="/profile">
+      <input name="name" type="hidden" value="<%= results.items[i].name %>">
+      <input name="id" type="hidden" value="<%= results.items[i].id %>">
+      <button class="secondary-content cardcolor" type="submit" ><i class="material-icons">library_add</i></button>
+  </form>
     </li>
   </ul>
 <% }; %>
