@@ -46,6 +46,7 @@ router.post('/', (req, res) => {
 
 router.post('/guestinput', (req, res) => {
   var myJSON = JSON.stringify(req.body);
+  // myJSON this includes the partyname which is playlist name
   console.log('doug search json', myJSON)
   spotifyApi.searchTracks(String('track:')+req.body.track+String(' artist:')+req.body.artist)
     .then(function(data) {

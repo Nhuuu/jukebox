@@ -3,50 +3,28 @@ var express = require('express');
 var passport = require('../config/passportConfig');
 var router = express.Router();
 var db = require('../models');
-var SpotifyWebApi = require('spotify-web-api-node');
-var scopes = ['playlist-modify-private', 'app-remote-control', 'user-read-currently-playing', 'playlist-read-private', 'user-modify-playback-state', 'streaming', 'playlist-read-collaborative']
+const SpotifyStrategy = require('passport-spotify').Strategy;
 
-var credentials = {
-  clientId: process.env.SPOTIFY_API_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: 'https://partyjukebox.herokuapp.com/'
-};
-var spotifyApi = new SpotifyWebApi(credentials);
-var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
-var code = process.env.SPOTIFY_AUTH_CODE
-
-spotifyApi.authorizationCodeGrant(code).then(
-  function(data) {
-    console.log('The token expires in ' + data.body['expires_in']);
-    console.log('The access token is ' + data.body['access_token']);
-    console.log('The refresh token is ' + data.body['refresh_token']);
-    // Set the access token on the API object to use it in later calls
-    spotifyApi.setAccessToken(data.body['access_token']);
-    spotifyApi.setRefreshToken(data.body['refresh_token']);
-  },
-  function(err) {
-    console.log('Something went wrong with authorization!', err);
-  }
+passport.use(
+  new SpotifyStrategy(
+    {
+      clientID: process.env.SPOTIFY_API_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      callbackURL: 'https://partyjukebox.herokuapp.com/'
+    },
+    function(accessToken, refreshToken, expires_in, profile, done) {
+      User.findOrCreate({ spotifyId: profile.id }, function(err, user) {
+        return done(err, user);
+      });
+    }
+  )
 );
 
-// Refresh token 
-spotifyApi.refreshAccessToken().then(
-  function(data) {
-    console.log('The access token has been refreshed!');
-    spotifyApi.setAccessToken(data.body['access_token']);
-  },
-  function(err) {
-    console.log('Could not refresh the token!', err.message);
-  }
-)
+
 
 router.get('/login', (req, res) => {
-	// res.render('auth/login');
-	console.log(authorizeURL);
-	res.redirect(authorizeURL)
+	res.render('auth/login');
 });
-
-
 
 // LOOK into this one more
 router.post('/login', passport.authenticate('local', {
@@ -114,6 +92,19 @@ router.get('/logout', (req, res) => {
 });
 
 
+// SPOTIFY SPECIFIC ROUTES
+router.get('/spotify', passport.authenticate('spotify', {
+  // The request will be redirected to spotify for authentication, so this
+	// function will not be called.
+	scope: ['playlist-modify-private', 'app-remote-control', 'user-read-currently-playing', 'playlist-read-private', 'user-modify-playback-state', 'streaming', 'playlist-read-collaborative']
+}));
+
+router.get('/spotify/callback', passport.authenticate('spotify', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect to the party.
+    res.redirect('/party');
+  }
+);
 
 
 module.exports = router;
