@@ -4,27 +4,46 @@ var router = express.Router();
 var db = require('../models');
 
 var SpotifyWebApi = require('spotify-web-api-node');
-var spotifyApi = new SpotifyWebApi();
+var scopes = ['playlist-modify-private', 'app-remote-control', 'user-read-currently-playing', 'playlist-read-private', 'user-modify-playback-state', 'streaming', 'playlist-read-collaborative'],
+  redirectUri = 'https://partyjukebox.herokuapp.com/',
+  clientId = '5fe01282e44241328a84e7c5cc169165',
+  state = 'some-state-of-my-choice';
 
-
-var spotifyApi = new SpotifyWebApi({
+var credentials = {
   clientId: process.env.SPOTIFY_API_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET
-});
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  redirectUri: 'http://localhost:8000/search/guestinput'
+};
+var spotifyApi = new SpotifyWebApi(credentials);
+var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
+var code = process.env.SPOTIFY_AUTH_CODE
 
-// Retrieve an access token
-spotifyApi
-  .clientCredentialsGrant()
-  .then(function(data) {
-    // Set the access token on the API object so that it's used in all future requests
+// var code = process.env.SPOTIFY_AUTH_CODE;
+
+spotifyApi.authorizationCodeGrant(code).then(
+  function(data) {
+    console.log('The token expires in ' + data.body['expires_in']);
+    console.log('The access token is ' + data.body['access_token']);
+    console.log('The refresh token is ' + data.body['refresh_token']);
+    // Set the access token on the API object to use it in later calls
     spotifyApi.setAccessToken(data.body['access_token']);
-  })
+    spotifyApi.setRefreshToken(data.body['refresh_token']);
+  },
+  function(err) {
+    console.log('Something went wrong with authorization!', err);
+  }
+);
 
-router.post('/', (req, res) => {   
-  console.log('search route', req.body)
-  res.render('parties/search', {partytoken: req.body});
-})
-
+// Refresh token 
+spotifyApi.refreshAccessToken().then(
+  function(data) {
+    console.log('The access token has been refreshed!');
+    spotifyApi.setAccessToken(data.body['access_token']);
+  },
+  function(err) {
+    console.log('Could not refresh the token!', err.message);
+  }
+)
 // router.post('/playlist', (req, res) => {
 //   console.log(req.body.artist);
 //   spotifyApi.searchArtists(req.body.artist)
