@@ -101,7 +101,7 @@ router.get('/guest', (req, res) => {
   })
   .then(party => {
     db.song.findAll({
-      where: { id: party.id } //check this
+      where: { partyId: party.id } //check this
     })
     .then(foundSongs => {
       res.render('parties/guest', { party: party, songs: foundSongs })
