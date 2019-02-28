@@ -3,26 +3,26 @@ var express = require('express');
 var router = express.Router();
 var db = require('../models');
 
-var SpotifyWebApi = require('spotify-web-api-node');
-var spotifyApi = new SpotifyWebApi();
+// var SpotifyWebApi = require('spotify-web-api-node');
+// var spotifyApi = new SpotifyWebApi();
 
 //spotify access token (remove token to env later)
-spotifyApi.setAccessToken(process.env.SPOTIFY_API);
+// spotifyApi.setAccessToken(process.env.SPOTIFY_API);
 
 
-var spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_API,
-  clientSecret: process.env.SPOTIFY_CLIENT
-});
+// var spotifyApi = new SpotifyWebApi({
+//   clientId: process.env.SPOTIFY_API,
+//   clientSecret: process.env.SPOTIFY_CLIENT
+// });
 
 
-// Retrieve an access token
-spotifyApi
-  .clientCredentialsGrant()
-  .then(function(data) {
-    // Set the access token on the API object so that it's used in all future requests
-    spotifyApi.setAccessToken(data.body['access_token']);
-  })
+// // Retrieve an access token
+// spotifyApi
+//   .clientCredentialsGrant()
+//   .then(function(data) {
+//     // Set the access token on the API object so that it's used in all future requests
+//     spotifyApi.setAccessToken(data.body['access_token']);
+//   })
 
   // NHUUUUU
 // router.get('/jkbx', (req, res) => {   

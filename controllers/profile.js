@@ -4,22 +4,34 @@ var db = require('../models');
 // Include ref to middleware > loggedIn.js
 var loggedIn = require('../middleware/loggedIn');
 var isAdmin = require('../middleware/isAdmin')
-var SpotifyWebApi = require('spotify-web-api-node');
+// var SpotifyWebApi = require('spotify-web-api-node');
 
 
-var spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_API_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET
-});
-// Retrieve an access token
-spotifyApi
-  .clientCredentialsGrant()
-  .then(function(data) {
-    // console.log('give me the mother fucking token bitch!', data)
-    // Set the access token on the API object so that it's used in all future requests
-    spotifyApi.setAccessToken(data.body['access_token']);
-    // console.log('The access token expires in ' + data.body['expires_in']);
-	})
+// var spotifyApi = new SpotifyWebApi({
+//   clientId: process.env.SPOTIFY_API_CLIENT_ID,
+//   clientSecret: process.env.SPOTIFY_CLIENT_SECRET
+// });
+// // Retrieve an access token
+// spotifyApi
+//   .clientCredentialsGrant()
+//   .then(function(data) {
+//     // console.log('give me the mother fucking token bitch!', data)
+//     // Set the access token on the API object so that it's used in all future requests
+//     spotifyApi.setAccessToken(data.body['access_token']);
+//     // console.log('The access token expires in ' + data.body['expires_in']);
+//   })
+  
+// // Refresh token 
+// spotifyApi.refreshAccessToken().then(
+//   function(data) {
+//     console.log('The access token has been refreshed!');
+//     spotifyApi.setAccessToken(data.body['access_token']);
+//   },
+//   function(err) {
+//     console.log('Could not refresh the token!', err.message);
+//   }
+// )
+
 
 // Add song to party
 router.post('/', loggedIn, (req, res) => {

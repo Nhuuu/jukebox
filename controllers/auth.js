@@ -4,33 +4,42 @@ var passport = require('../config/passportConfig');
 var router = express.Router();
 var db = require('../models');
 
-const SpotifyStrategy = require('passport-spotify').Strategy;
+// const SpotifyStrategy = require('passport-spotify').Strategy;
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
+// passport.serializeUser(function(user, done) {
+//   done(null, user);
+// });
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
+// passport.deserializeUser(function(obj, done) {
+//   done(null, obj);
+// });
 
 
-passport.use(
-  new SpotifyStrategy(
-    {
-      clientID: process.env.SPOTIFY_API_CLIENT_ID,
-      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-      callbackURL: 'http://localhost:8000/auth/spotify/callback'
-    },
-    function(accessToken, refreshToken, expires_in, profile, done) {
-      db.user.findOrCreate({ 
-				spotifyId: profile.id
-			}, function(err, user) {
-        return done(err, user);
-      });
-    }
-  )
-);
+// passport.use(
+//   new SpotifyStrategy(
+//     {
+//       clientID: process.env.SPOTIFY_API_CLIENT_ID,
+//       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+//       callbackURL: 'http://localhost:8000/auth/spotify/callback'
+//     },
+//     function(accessToken, refreshToken, expires_in, profile, done) {
+//       db.user.findOrCreate({ 
+// 				where: {
+// 					username: profile.username
+// 				},
+// 				defaults: {
+// 					email: 'email@email.com',
+// 					password: 'password',
+// 					admin: false
+// 				}
+// 			})
+// 			.spread((user, created) => {
+// 				console.log(user.username)
+//         return user.username;
+//       });
+//     }
+//   )
+// );
 
 
 router.get('/login', (req, res) => {
@@ -96,19 +105,21 @@ router.get('/logout', (req, res) => {
 	res.redirect('/');
 });
 
-// SPOTIFY SPECIFIC ROUTES
-router.get('/spotify', passport.authenticate('spotify', {
-  // The request will be redirected to spotify for authentication, so this
-	// function will not be called.
-	scope: ['playlist-modify-private', 'app-remote-control', 'user-read-currently-playing', 'playlist-read-private', 'user-modify-playback-state', 'streaming', 'playlist-read-collaborative']
-}));
+// // SPOTIFY SPECIFIC ROUTES
+// router.get('/spotify', passport.authenticate('spotify', {
+//   // The request will be redirected to spotify for authentication, so this
+// 	// function will not be called.
+// 	scope: ['playlist-modify-private', 'app-remote-control', 'user-read-currently-playing', 'playlist-read-private', 'user-modify-playback-state', 'streaming', 'playlist-read-collaborative']
+// }));
 
-router.get('/spotify/callback', passport.authenticate('spotify', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect to the party.
-    res.redirect('/party');
-  }
-);
+
+// // Why was this get?
+// router.get('/spotify/callback', passport.authenticate('spotify', { failureRedirect: 'auth/login' }),
+//   function(req, res) {
+//     // Successful authentication, redirect to the party.
+//     res.redirect('/party');
+//   }
+// );
 
 
 module.exports = router;

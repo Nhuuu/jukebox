@@ -4,7 +4,6 @@ var router = express.Router();
 var db = require('../models');
 
 var SpotifyWebApi = require('spotify-web-api-node');
-var spotifyApi = new SpotifyWebApi();
 
 
 var spotifyApi = new SpotifyWebApi({
