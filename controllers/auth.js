@@ -3,17 +3,29 @@ var express = require('express');
 var passport = require('../config/passportConfig');
 var router = express.Router();
 var db = require('../models');
+
 const SpotifyStrategy = require('passport-spotify').Strategy;
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
 
 passport.use(
   new SpotifyStrategy(
     {
       clientID: process.env.SPOTIFY_API_CLIENT_ID,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-      callbackURL: 'https://partyjukebox.herokuapp.com/'
+      callbackURL: 'http://localhost:8000/auth/spotify/callback'
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
-      User.findOrCreate({ spotifyId: profile.id }, function(err, user) {
+      db.user.findOrCreate({ 
+				spotifyId: profile.id
+			}, function(err, user) {
         return done(err, user);
       });
     }
@@ -21,12 +33,11 @@ passport.use(
 );
 
 
-
 router.get('/login', (req, res) => {
 	res.render('auth/login');
 });
 
-// LOOK into this one more
+
 router.post('/login', passport.authenticate('local', {
 	successRedirect: '/party',
 	successFlash: 'Yay, login successful!',
@@ -44,15 +55,11 @@ router.get('/signup', (req, res) => {
 // POST route to sign up and create users
 router.post('/signup', (req, res) => {
 	if (req.body.password != req.body.passwordV){
-		// flash type error, msg
 		req.flash('error', 'Passwords must match!');
-		// render page they were just on. Need to call alerts > flash(error/success) to use in alerts.ejs. Or it will auto flash on redirect/refresh not on rendering.
 		res.render('auth/signup', { previousData: req.body, alerts: req.flash() }); 
 	} else {
-		// console.log(req.body);
 		db.user.findOrCreate({
 			where: { username: req.body.username },
-			// where username, create with req.body
 			defaults: req.body
 		})
 		.spread((user, created) => {
@@ -66,8 +73,6 @@ router.post('/signup', (req, res) => {
 			}
 		})
 		.catch((err) => {
-			// Sequelize errors is an array with type (different types of errors) and message. 
-			// Using type validation error because we set validations on the user for pw...etc.
 			if(err && err.errors){
 				console.log(err.errors)
 				err.errors.forEach((e) => {
@@ -86,11 +91,10 @@ router.post('/signup', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-	req.logout(); // logs me out of the session, inherent in passport
+	req.logout(); 
 	req.flash('success', 'Come back again!');
 	res.redirect('/');
 });
-
 
 // SPOTIFY SPECIFIC ROUTES
 router.get('/spotify', passport.authenticate('spotify', {

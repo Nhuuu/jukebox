@@ -48,7 +48,7 @@ router.get('/', (req, res) => {
 
 // POST route to create a new party and redirect to jukebox using partyId
 router.post('/', (req, res) => {
-  var playlist = JSON.stringify(req.body.partyname)
+  // var playlist = JSON.stringify(req.body.partyname)
   db.user.findOne({
     where: {id: req.user.id}
   })
