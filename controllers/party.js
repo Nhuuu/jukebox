@@ -3,29 +3,49 @@ var express = require('express');
 var router = express.Router();
 var db = require('../models');
 var SpotifyWebApi = require('spotify-web-api-node');
+var scopes = ['playlist-modify-private', 'app-remote-control', 'user-read-currently-playing', 'playlist-read-private', 'user-modify-playback-state', 'streaming', 'playlist-read-collaborative']
 
-var spotifyApi = new SpotifyWebApi({
+var credentials = {
   clientId: process.env.SPOTIFY_API_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET
-});
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  redirect_URI: 'https://partyjukebox.herokuapp.com/callback'
+};
+var spotifyApi = new SpotifyWebApi(credentials);
+var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
+console.log(authorizeURL);
 
-// spotifyApi.resetAccessToken();
+// var code='AQBz-LZiikDMyUBqO4YbROBSHkGuARHCR0suBta6hgzb9odvYgpLWuRSZkgixTsEAssyczoKo1BgKdZHcIB6Mwv-JDSZmKhbml0E1PiE3T6ZsfIe2eMnBQ33DMDoFQUX1YjEhbuQI-h4qg-bf1EP2FRHEfgK5veokbcZ_rAc9OmflfCgRb-JThNjfhiZKD7TgFFMlT97TCS_iPPCNXGmRwYzbdzxeUMj808p61KHoCUS5kjMiB3WXUgUx-f2qnfA5Y-gBvdX-g'
 
-// Retrieve an access token
-  // function refreshToken(){
-  //   spotifyApi.clientCredentialsGrant()
-  //   .then(data => {
-  //     console.log('The access token expires in ' + data.body['expires_in']);
-  //     console.log('The access token is ' + data.body['access_token']);
+var code = 'AQBz-LZiikDMyUBqO4YbROBSHkGuARHCR0suBta6hgzb9odvYgpLWuRSZkgixTsEAssyczoKo1BgKdZHcIB6Mwv-JDSZmKhbml0E1PiE3T6ZsfIe2eMnBQ33DMDoFQUX1YjEhbuQI-h4qg-bf1EP2FRHEfgK5veokbcZ_rAc9OmflfCgRb-JThNjfhiZKD7TgFFMlT97TCS_iPPCNXGmRwYzbdzxeUMj808p61KHoCUS5kjMiB3WXUgUx-f2qnfA5Y-gBvdX-g&state=34fFs29kd09'
+spotifyApi.authorizationCodeGrant(code).then(
+  function(data) {
+    console.log('The token expires in ' + data.body['expires_in']);
+    console.log('The access token is ' + data.body['access_token']);
+    console.log('The refresh token is ' + data.body['refresh_token']);
+    // Set the access token on the API object to use it in later calls
+    spotifyApi.setAccessToken(data.body['access_token']);
+    spotifyApi.setRefreshToken(data.body['refresh_token']);
+  },
+  function(err) {
+    console.log('Something went wrong!', err);
+  }
+);
 
-  //     // Save the access token so that it's used in future calls
-  //     spotifyApi.setAccessToken(data.body['access_token']);
-  //   }, (err) => {
-  //     console.log('Something went wrong when retrieving an access token', err.message);
-  //   });
-  // }
 
-  // setInterval(refreshToken, 3600000);
+setInterval(function() {
+  // Refresh token and print the new time to expiration.
+  spotifyApi.refreshAccessToken().then(
+    function(data) {
+      console.log('The access token has been refreshed!');
+      spotifyApi.setAccessToken(data.body['access_token']);
+    },
+    function(err) {
+      console.log('Could not refresh the token!', err.message);
+    }
+  )
+}, 3500000);
+
+
 
 
 
@@ -50,12 +70,18 @@ router.post('/', (req, res) => {
     .spread((party, created) => {
       user.addParty(party)
       .then(party => {
-        spotifyApi.createPlaylist('playlist', { 'public' : true })
-          .then(data => {
-            console.log('Created playlist!', data);
-          }, (err) => {
-            console.log('Something went wrong!', err);
-          })
+        spotifyApi.getUser('nutrinbar')
+        .then(data => {
+          console.log('Some information about this user to return', data.body.id);
+          spotifyApi.createPlaylist('playlist', { 'public' : false })
+            .then(data => {
+              console.log('Created playlist!');
+            }, (err) => {
+              console.log('Something went wrong in creating a playlist!', err);
+            })
+        }, (err) => {
+          console.log('Something went wrong finding the user!', err);
+        })        
         res.redirect(`party/guest?token=${req.body.token}&action=`)
       })
       .catch(err => {
@@ -70,15 +96,6 @@ router.post('/', (req, res) => {
     console.log("error 3", err)
   })
 })
-
-// const playlist = () => {
-//   spotifyApi.createPlaylist('playlist', { 'public' : true })
-//     .then(data => {
-//       console.log('Created playlist!');
-//     }, (err) => {
-//       console.log('Something went wrong!', err);
-//     })
-// }
 
 router.get('/test', (req, res) => {
   res.render('parties/testplayer');

@@ -1,0 +1,37 @@
+<div class="navbar">
+    <nav>
+      <div class="nav-wrapper">
+  <a href="/" class="brand-logo">The Party Jukebox</a>
+  <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+  <ul class="right hide-on-med-and-down">
+    <% if(!user) { %>
+      <li><a href="/auth/login">Log In</a></li>
+      <li><a href="/auth/signup">Sign Up</a></li>
+    <% } else { %>
+      <% if(user.admin) { %>
+        <li><a href="/profile/admins">Admin Page</a></li>
+      <% } %>
+      <li>Hello, <%= user.username %>!</li>
+      <li><a href="/party">Party</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/auth/logout">Logout</a></li>
+    <% } %>
+  </ul>
+  </div>
+  </nav>
+</div>
+
+<ul class="sidenav" id="mobile-demo">
+<% if(!user) { %>
+      <li><a href="/auth/login">Log In</a></li>
+      <li><a href="/auth/signup">Sign Up</a></li>
+    <% } else { %>
+      <% if(user.admin) { %>
+        <li><a href="/profile/admins">Admin Page</a></li>
+      <% } %>
+      <li>Hello, <%= user.username %>!</li>
+      <li><a href="/party">Party</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/auth/logout">Logout</a></li>
+    <% } %>
+</ul>

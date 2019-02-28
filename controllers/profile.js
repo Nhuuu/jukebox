@@ -15,12 +15,12 @@ var spotifyApi = new SpotifyWebApi({
 spotifyApi
   .clientCredentialsGrant()
   .then(function(data) {
-    console.log('give me the mother fucking token bitch!', data)
+    // console.log('give me the mother fucking token bitch!', data)
     // Set the access token on the API object so that it's used in all future requests
     spotifyApi.setAccessToken(data.body['access_token']);
-    console.log('The access token expires in ' + data.body['expires_in']);
+    // console.log('The access token expires in ' + data.body['expires_in']);
 	})
-	
+
 // Add song to party
 router.post('/', loggedIn, (req, res) => {
 	db.user.findOne({
@@ -57,9 +57,21 @@ router.post('/', loggedIn, (req, res) => {
   })
 })
 
-router.get('/', loggedIn, (req, res) => {
-	res.render('profile');
-});
+router.get('/', loggedIn, (req, res) =>{
+	db.user.find({
+		where: { id: req.user.id },
+	})
+	.then(function(user){
+    user.getParties()
+    .then(function(parties){
+      res.render('profile', {parties: parties})
+    })
+	})
+	.catch(function(err){
+		console.log(err);
+	})
+})
+
 
 router.post('/add', loggedIn, (req, res) => {
 	console.log('song add console', req.body)
@@ -110,12 +122,8 @@ router.get('/admins', isAdmin, (req, res) => {
 });
 
 router.get('/', isAdmin, (req, res) => {
-
 	res.render('profile');
 });
-
-
-
 
 
 

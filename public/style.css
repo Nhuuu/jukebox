@@ -294,3 +294,28 @@ form input {
 .collection {
 	color: black !important;
 }
+
+
+@media screen and (min-width: 601px) {
+	div.mobilefriendlytext {
+	  font-size: 30px;
+	}
+}
+  
+@media screen and (max-width: 600px) {
+	div.mobilefriendlytext {
+		font-size: 15px;
+	}
+}
+
+.row {
+	text-align: center;
+}
+
+/* listing parties in profile */
+.partylist{
+	width: 80%;
+	box-shadow:5px 5px #8C8C8C;
+	border: 1px solid #8C8C8C;
+	border-radius: 5px;
+}

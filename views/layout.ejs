@@ -14,26 +14,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lettering.js/0.7.0/jquery.lettering.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
 </head>
+<header class='header'> <% include partials/navbar %> </header>
 <body>
-  	<nav>
-	    <div class="">
-	      <a href="/" class="brand-logo">The Party Jukebox</a>
-	      <ul class="right">
-	      	<% if(!user) { %>
-	      		<li><a href="/auth/login">Log In</a></li>
-	        	<li><a href="/auth/signup">Sign Up</a></li>
-	      	<% } else { %>
-	      		<% if(user.admin) { %>
-	      			<li><a href="/profile/admins">Admin Page</a></li>
-	      		<% } %>
-						<li>Hello, <%= user.username %>!</li>
-						<li><a href="/party">Party</a></li>
-	      		<li><a href="/profile">Profile</a></li>
-	      		<li><a href="/auth/logout">Logout</a></li>
-	      	<% } %>
-	      </ul>
-	    </div>
-  	</nav>
+ 
 	<div class="container">
 		<% include partials/alerts %>
 		<%- body%>
