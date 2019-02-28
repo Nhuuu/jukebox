@@ -1,10 +1,26 @@
 var express = require('express');
 var router = express.Router();
-
+var db = require('../models');
 // Include ref to middleware > loggedIn.js
 var loggedIn = require('../middleware/loggedIn');
 var isAdmin = require('../middleware/isAdmin')
+var SpotifyWebApi = require('spotify-web-api-node');
 
+
+var spotifyApi = new SpotifyWebApi({
+  clientId: process.env.SPOTIFY_API_CLIENT_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET
+});
+// Retrieve an access token
+spotifyApi
+  .clientCredentialsGrant()
+  .then(function(data) {
+    console.log('give me the mother fucking token bitch!', data)
+    // Set the access token on the API object so that it's used in all future requests
+    spotifyApi.setAccessToken(data.body['access_token']);
+    console.log('The access token expires in ' + data.body['expires_in']);
+	})
+	
 // Add song to party
 router.post('/', loggedIn, (req, res) => {
 	db.user.findOne({
@@ -41,6 +57,20 @@ router.post('/', loggedIn, (req, res) => {
   })
 })
 
+router.get('/', loggedIn, (req, res) => {
+	res.render('profile');
+});
+
+router.post('/add', loggedIn, (req, res) => {
+	console.log('song add console', req.body)
+	spotifyApi.getUserPlaylists('nutrinbar')
+  .then(function(data) {
+    console.log('Retrieved playlists', data.body);
+  },function(err) {
+    console.log('Something went wrong!', err);
+  });
+	res.render('profile');
+});
 	// res.send('profile req.body', req.body)
 	// {"name":"I Fall Apart","id":"75ZvA4QfFiZvzhj2xkaWAh"}
 	// var name = req.body.name;
@@ -80,6 +110,7 @@ router.get('/admins', isAdmin, (req, res) => {
 });
 
 router.get('/', isAdmin, (req, res) => {
+
 	res.render('profile');
 });
 

@@ -8,8 +8,8 @@ var spotifyApi = new SpotifyWebApi();
 
 
 var spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_API,
-  clientSecret: process.env.SPOTIFY_CLIENT
+  clientId: process.env.SPOTIFY_API_CLIENT_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET
 });
 
 // Retrieve an access token
@@ -57,7 +57,7 @@ router.post('/guestinput', (req, res) => {
   });
 
 router.get('/searchresult', (req, res) => {
-  
+
 })
 
   module.exports = router;

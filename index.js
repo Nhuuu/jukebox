@@ -22,7 +22,7 @@ var io = require('socket.io');
 
 
 //spotify access token (remove token to env later)
-spotifyApi.setAccessToken(process.env.SPOTIFY_API);
+// spotifyApi.setAccessToken(process.env.SPOTIFY_API);
 
 // Set the views to ejs
 app.set('view engine', 'ejs');
@@ -61,22 +61,55 @@ app.get('/', (req, res) => {
 	res.render('home');
 });
 
-// Search tracks whose name, album or artist contains 'Love'
-app.post('/', (req, res) => {
-	//console.log(req.body.artist);
-	spotifyApi.searchTracks(req.query)
-	.then(data => {
-		res.render('results', {data: data.body});
-	})
-	.catch(err => {
-		console.log('error', { error: err });
-	});
-});	
-
 // app.get('*', (req, res, next) => {
 // 	res.status(404).send({ message: 'Not Found' });
 // });
 
+var spotifyApi = new SpotifyWebApi({
+  clientId: process.env.SPOTIFY_API_CLIENT_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET
+});
+// Retrieve an access token
+spotifyApi
+  .clientCredentialsGrant()
+  .then(function(data) {
+    console.log('give me the mother fucking token bitch!', data)
+    // Set the access token on the API object so that it's used in all future requests
+    spotifyApi.setAccessToken(data.body['access_token']);
+    console.log('The access token expires in ' + data.body['expires_in']);
+  })
+
+// request token and start timeout loop
+var tokenExpirationEpoch;
+var numberOfTimesUpdated = 0;
+
+setInterval(function() {
+  console.log(
+    'Time left: ' +
+      Math.floor(tokenExpirationEpoch - new Date().getTime() / 10000) +
+      ' seconds left!'
+  );
+
+  // OK, we need to refresh the token. Stop printing and refresh.
+  if (++numberOfTimesUpdated > 5) {
+    clearInterval(this);
+    // Refresh token and print the new time to expiration.
+    spotifyApi.refreshAccessToken().then(
+      function(data) {
+        tokenExpirationEpoch =
+          new Date().getTime() / 1000 + data.body['expires_in'];
+        console.log(
+          'Refreshed token. It now expires in ' +
+            Math.floor(tokenExpirationEpoch - new Date().getTime() / 10000) +
+            ' seconds!'
+        );
+      },
+      function(err) {
+        console.log('Could not refresh the token!', err.message);
+      }
+    );
+  }
+}, 10000);
 
 // Include controllers
 app.use('/auth', require('./controllers/auth'));

@@ -148,7 +148,7 @@ nav .brand-logo {
 	-moz-box-shadow: 10px 10px 10px rgba(0,0,0,1) inset, -9px -9px 8px rgba(0,0,0,1) inset;
 	-webkit-box-shadow: 8px 8px 8px rgba(0,0,0,1) inset, -9px -9px 8px rgba(0,0,0,1) inset;
 	box-shadow: 8px 8px 8px rgba(0,0,0,1) inset, -9px -9px 8px rgba(0,0,0,1) inset;
-	margin: 100px auto;
+	margin: 40px auto;
 }
 /* Artifical "border" to clear border to bypass mask */
 .border{
@@ -281,12 +281,16 @@ form input {
 	max-width: 100%;
 	height: auto;
 }
-	.embed-container iframe,
-	.embed-container object,
-	.embed-container embed {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-	}
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+}
+
+.collection {
+	color: black !important;
+}

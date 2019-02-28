@@ -7,7 +7,6 @@ $(document).ready(function(){
   $('.sidenav').sidenav();
   // materialize carousel
 
-
   $(document).ready(function(){
     $('.collapsible').collapsible();
   });

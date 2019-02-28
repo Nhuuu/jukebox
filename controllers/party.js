@@ -5,26 +5,28 @@ var db = require('../models');
 var SpotifyWebApi = require('spotify-web-api-node');
 
 var spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_API,
-  clientSecret: process.env.SPOTIFY_CLIENT
+  clientId: process.env.SPOTIFY_API_CLIENT_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET
 });
 
+// spotifyApi.resetAccessToken();
+
 // Retrieve an access token
+  // function refreshToken(){
+  //   spotifyApi.clientCredentialsGrant()
+  //   .then(data => {
+  //     console.log('The access token expires in ' + data.body['expires_in']);
+  //     console.log('The access token is ' + data.body['access_token']);
 
-const refreshToken = () => {
-  spotifyApi.clientCredentialsGrant()
-  .then(data => {
-    console.log('The access token expires in ' + data.body['expires_in']);
-    console.log('The access token is ' + data.body['access_token']);
+  //     // Save the access token so that it's used in future calls
+  //     spotifyApi.setAccessToken(data.body['access_token']);
+  //   }, (err) => {
+  //     console.log('Something went wrong when retrieving an access token', err.message);
+  //   });
+  // }
 
-    // Save the access token so that it's used in future calls
-    spotifyApi.setAccessToken(data.body['access_token']);
-  }, (err) => {
-    console.log('Something went wrong when retrieving an access token', err.message);
-  });
-}
+  // setInterval(refreshToken, 3600000);
 
-setInterval(refreshToken, 3600000);
 
 
 //Display the form once you're signed in or logged in

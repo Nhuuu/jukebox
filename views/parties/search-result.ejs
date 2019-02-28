@@ -3,12 +3,12 @@
 <% for(var i=0; i<results.items.length; i++) { %>
 <ul class="collection">
     <li class="collection-item avatar z-depth-5">
-      <img src="<%= results.items[i].album.images[1].url %>" alt="album" class="circle">
+      <img src="<%= results.items[i].album.images[0].url %>" alt="album" class="circle">
       Track: <span class="title"><%= results.items[i].name %></span>
       <p>Album: <span class="trackname"><%= results.items[i].album.name %></span><br>
         Track:  <span class="trackname"><%= results.items[i].track_number %></span>
       </p>
-      <form method="POST" action="/profile">
+      <form method="POST" action="/profile/add">
       <input name="name" type="hidden" value="<%= results.items[i].name %>">
       <input name="id" type="hidden" value="<%= results.items[i].id %>">
       <button class="secondary-content cardcolor" type="submit" ><i class="material-icons">library_add</i></button>
