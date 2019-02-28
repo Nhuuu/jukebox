@@ -8,15 +8,16 @@ var scopes = ['playlist-modify-private', 'app-remote-control', 'user-read-curren
 var credentials = {
   clientId: process.env.SPOTIFY_API_CLIENT_ID,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirect_URI: 'https://partyjukebox.herokuapp.com/callback'
+  redirectUri: 'https://partyjukebox.herokuapp.com/callback'
 };
 var spotifyApi = new SpotifyWebApi(credentials);
 var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
 console.log(authorizeURL);
 
-// var code='AQBz-LZiikDMyUBqO4YbROBSHkGuARHCR0suBta6hgzb9odvYgpLWuRSZkgixTsEAssyczoKo1BgKdZHcIB6Mwv-JDSZmKhbml0E1PiE3T6ZsfIe2eMnBQ33DMDoFQUX1YjEhbuQI-h4qg-bf1EP2FRHEfgK5veokbcZ_rAc9OmflfCgRb-JThNjfhiZKD7TgFFMlT97TCS_iPPCNXGmRwYzbdzxeUMj808p61KHoCUS5kjMiB3WXUgUx-f2qnfA5Y-gBvdX-g'
+// &state=34fFs29kd09
 
-var code = 'AQBz-LZiikDMyUBqO4YbROBSHkGuARHCR0suBta6hgzb9odvYgpLWuRSZkgixTsEAssyczoKo1BgKdZHcIB6Mwv-JDSZmKhbml0E1PiE3T6ZsfIe2eMnBQ33DMDoFQUX1YjEhbuQI-h4qg-bf1EP2FRHEfgK5veokbcZ_rAc9OmflfCgRb-JThNjfhiZKD7TgFFMlT97TCS_iPPCNXGmRwYzbdzxeUMj808p61KHoCUS5kjMiB3WXUgUx-f2qnfA5Y-gBvdX-g&state=34fFs29kd09'
+var code = 'AQBz-LZiikDMyUBqO4YbROBSHkGuARHCR0suBta6hgzb9odvYgpLWuRSZkgixTsEAssyczoKo1BgKdZHcIB6Mwv-JDSZmKhbml0E1PiE3T6ZsfIe2eMnBQ33DMDoFQUX1YjEhbuQI-h4qg-bf1EP2FRHEfgK5veokbcZ_rAc9OmflfCgRb-JThNjfhiZKD7TgFFMlT97TCS_iPPCNXGmRwYzbdzxeUMj808p61KHoCUS5kjMiB3WXUgUx-f2qnfA5Y-gBvdX-g'
+
 spotifyApi.authorizationCodeGrant(code).then(
   function(data) {
     console.log('The token expires in ' + data.body['expires_in']);
@@ -27,7 +28,7 @@ spotifyApi.authorizationCodeGrant(code).then(
     spotifyApi.setRefreshToken(data.body['refresh_token']);
   },
   function(err) {
-    console.log('Something went wrong!', err);
+    console.log('Something went wrong with authorization!', err);
   }
 );
 
