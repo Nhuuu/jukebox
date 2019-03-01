@@ -10,9 +10,18 @@ var db = require('./models');
 var session = require('express-session');
 // Declare express instance to use;
 var app = express();
+<<<<<<< HEAD
 //bring loggedIn middleware
 var loggedIn = require('./middleware/loggedIn');
 
+=======
+//for Spotify
+var SpotifyWebApi = require('spotify-web-api-node');
+var spotifyApi = new SpotifyWebApi();
+
+//spotify access token (remove token to env later)
+spotifyApi.setAccessToken('c9cf89e8ae6044f4800743423f2c8f4f');
+>>>>>>> ebb819f0f076c592461c315c2779c1ce29f4af1d
 
 // Set the views to ejs
 app.set('view engine', 'ejs');
@@ -48,6 +57,7 @@ app.get('/', (req, res) => {
 	res.render('home');
 });
 
+<<<<<<< HEAD
 
 // request token and start timeout loop
 // var tokenExpirationEpoch;
@@ -91,5 +101,23 @@ app.use('/search', loggedIn, require('./controllers/search'));
 // app.use('/jukebox', require('./controllers/jukebox'));
 // app.use('/search', require('./controllers/search'));
 
+=======
+// Search tracks whose name, album or artist contains 'Love'
+	app.post('/', function(req, res){
+	//console.log(req.body.artist);
+	spotifyApi.searchTracks(req.query)
+	.then(function(data){
+		res.render('results', {data: data.body});
+	})
+	.catch(err => {
+		console.log('error', { error: err });
+	});
+});	
+
+// Include controllers
+app.use('/auth', require('./controllers/auth'));
+app.use('/profile', require('./controllers/profile'));
+app.use('/party', require('./controllers/party'));
+>>>>>>> ebb819f0f076c592461c315c2779c1ce29f4af1d
 
 app.listen(process.env.PORT||8000);
