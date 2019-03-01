@@ -4,12 +4,13 @@
 <ul class="collection">
     <li class="collection-item avatar z-depth-5">
       <img src="<%= results.items[i].album.images[0].url %>" alt="album" class="circle">
-      Track: <span class="title"><%= results.items[i].name %></span>
+      Title: <span class="title"><%= results.items[i].name %></span>
       <p>Album: <span class="trackname"><%= results.items[i].album.name %></span><br>
         Track:  <span class="trackname"><%= results.items[i].track_number %></span>
       </p>
       <form method="POST" action="/profile/add">
-      <input name="name" type="hidden" value="<%= results.items[i].name %>">
+      <input name="title" type="hidden" value="<%= results.items[i].name %>">
+      <input name="title" type="hidden" value="<%= results.items[i].name %>">
       <input name="id" type="hidden" value="<%= results.items[i].id %>">
       <input name="partyname" type="hidden" value="<%= partyname.name %>">
       <button class="secondary-content cardcolor" type="submit" ><i class="material-icons">library_add</i></button>

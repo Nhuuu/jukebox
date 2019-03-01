@@ -123,10 +123,10 @@ router.post('/add', loggedIn, (req, res) => {
   console.log('search and adding song route', req.body)
   db.party.findOne({
     where: { 
-      partyname: req.body.name
-    },
+      partyname: req.body.partyname
+    }
   })
-  .then(data => {
+  .then(party => {
     db.song.findOrCreate({
       where:{ 
         artist: req.body.artist,
@@ -134,18 +134,17 @@ router.post('/add', loggedIn, (req, res) => {
         partyId: req.body.partyId 
       }
     })
-    .spread(newSong, created => {
+    .spread(function(newSong, created){
       party.addSong(newSong)
       })
-      .then(function(parties){
-        res.render('parties/guest', {party: req.body});
-      })
-      .catch(function(err){
-        console.log(err);
-      })
+    .then(function(party){
+      res.render('parties/guest', {party: req.body});
     })
-    
+    .catch(function(err){
+      console.log(err);
     })
+  })
+})
   
 
 
