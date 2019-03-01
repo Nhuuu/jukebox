@@ -103,7 +103,7 @@ router.get('/spotify', passport.authenticate('spotify', {
 	scope: ['playlist-modify-private', 'app-remote-control', 'user-read-currently-playing', 'playlist-read-private', 'user-modify-playback-state', 'streaming', 'playlist-read-collaborative']
 }));
 
-router.get('/spotify/callback', passport.authenticate('spotify', { failureRedirect: '/login' }),
+router.get('/spotify/callback', passport.authenticate('spotify', { failureRedirect: 'auth/login' }),
   function(req, res) {
     // Successful authentication, redirect to the party.
     res.redirect('/party');
