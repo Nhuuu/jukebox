@@ -14,6 +14,7 @@ var app = express();
 var loggedIn = require('./middleware/loggedIn');
 
 
+//spotify access token (remove token to env later)
 // Set the views to ejs
 app.set('view engine', 'ejs');
 
@@ -47,39 +48,6 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
 	res.render('home');
 });
-
-
-// request token and start timeout loop
-// var tokenExpirationEpoch;
-// var numberOfTimesUpdated = 0;
-
-// setInterval(function() {
-//   console.log(
-//     'Time left: ' +
-//       Math.floor(tokenExpirationEpoch - new Date().getTime() / 10000) +
-//       ' seconds left!'
-//   );
-
-//   // OK, we need to refresh the token. Stop printing and refresh.
-//   if (++numberOfTimesUpdated > 5) {
-//     clearInterval(this);
-//     // Refresh token and print the new time to expiration.
-//     spotifyApi.refreshAccessToken().then(
-//       function(data) {
-//         tokenExpirationEpoch =
-//           new Date().getTime() / 1000 + data.body['expires_in'];
-//         console.log(
-//           'Refreshed token. It now expires in ' +
-//             Math.floor(tokenExpirationEpoch - new Date().getTime() / 10000) +
-//             ' seconds!'
-//         );
-//       },
-//       function(err) {
-//         console.log('Could not refresh the token!', err.message);
-//       }
-//     );
-//   }
-// }, 10000);
 
 // Include controllers
 app.use('/auth', require('./controllers/auth'));

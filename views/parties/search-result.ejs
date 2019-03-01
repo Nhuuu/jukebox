@@ -1,15 +1,16 @@
 <h3><%= partyname.name %></h3>
 
-<% for(var i=0; i<results.items.length; i++) { %>
+<% for(var i=1; i<results.items.length; i++) { %>
 <ul class="collection">
     <li class="collection-item avatar z-depth-5">
       <img src="<%= results.items[i].album.images[0].url %>" alt="album" class="circle">
       Title: <span class="title"><%= results.items[i].name %></span>
+      <p>Artist: <span class="trackname"><%= results.items[i].artists[0].name %></span><br>
       <p>Album: <span class="trackname"><%= results.items[i].album.name %></span><br>
         Track:  <span class="trackname"><%= results.items[i].track_number %></span>
       </p>
       <form method="POST" action="/profile/add">
-      <input name="title" type="hidden" value="<%= results.items[i].name %>">
+      <input name="artist" type="hidden" value="<%= results.items[i].artists[0].name %>">
       <input name="title" type="hidden" value="<%= results.items[i].name %>">
       <input name="id" type="hidden" value="<%= results.items[i].id %>">
       <input name="partyname" type="hidden" value="<%= partyname.name %>">
