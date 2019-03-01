@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('parties', {
+    return queryInterface.createTable('playlists', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,7 +11,7 @@ module.exports = {
       token: {
         type: Sequelize.STRING
       },
-      partyname: Sequelize.TEXT,
+      partyName: Sequelize.TEXT,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -23,6 +23,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('parties');
+    return queryInterface.dropTable('playlists');
   }
 };

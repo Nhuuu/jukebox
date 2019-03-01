@@ -52,10 +52,10 @@ app.get('/', (req, res) => {
 // Include controllers
 app.use('/auth', require('./controllers/auth'));
 app.use('/profile', require('./controllers/profile'));
-app.use('/party', loggedIn, require('./controllers/party')); 
+app.use('/playlist', loggedIn, require('./controllers/playlist')); 
 app.use('/jukebox', loggedIn, require('./controllers/jukebox'));
 app.use('/search', loggedIn, require('./controllers/search'));
-// app.use('/party', require('./controllers/party')); 
+// app.use('/playlist', require('./controllers/playlist')); 
 // app.use('/jukebox', require('./controllers/jukebox'));
 // app.use('/search', require('./controllers/search'));
 

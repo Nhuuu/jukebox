@@ -35,7 +35,7 @@ spotifyApi
 
 router.post('/', (req, res) => {   
   console.log('search route', req.body)
-  res.render('parties/search', {partytoken: req.body});
+  res.render('playlists/search', {playlisttoken: req.body});
 })
 
 // router.post('/playlist', (req, res) => {
@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
 //     spotifyApi.getArtistTopTracks(data.body.artists.items[0].id, 'US')
 //  		.then(function(track){
 //       console.log('we here', track)
-//  		  // res.send('parties/jukebox', { artist: data.body, tracks: track.body.tracks.slice( 0 )});
+//  		  // res.send('playlists/jukebox', { artist: data.body, tracks: track.body.tracks.slice( 0 )});
 //  		})
 //  		.catch(function(err){
 //       console.log(err);
@@ -60,12 +60,12 @@ router.post('/', (req, res) => {
 router.post('/guestinput', (req, res) => {
   var myJSON = JSON.stringify(req.body);
   console.log('search route2', req.body)
-  // myJSON this includes the partyname which is playlist name
+  // myJSON this includes the partyName which is playlist name
   console.log('doug search json', myJSON)
   spotifyApi.searchTracks(String('track:')+req.body.track+String(' artist:')+req.body.artist)
     .then(function(data) {
-      res.render('parties/search-result', 
-        {results: data.body.tracks, partyname: req.body},
+      res.render('playlists/search-result', 
+        {results: data.body.tracks, partyName: req.body},
         );
       // res.send({result: data.body.tracks.items[0].album.id});
     }, function(err) {

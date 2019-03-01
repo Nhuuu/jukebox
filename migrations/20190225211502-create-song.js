@@ -14,7 +14,7 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      partyId: {
+      playlistId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

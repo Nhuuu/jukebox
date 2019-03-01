@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   user.associate = function(models) {
     // associations can be defined here
-    models.user.belongsToMany(models.party, { through: 'partyUser' })
+    models.user.belongsToMany(models.playlist, { through: 'playlistUser' })
   };
   user.prototype.validPassword = function(typedPassword){
     // compareSync forces it to wait, compare typed with this user's pw

@@ -315,8 +315,8 @@ form input {
 	text-align: center;
 }
 
-/* listing parties in profile */
-.partylist{
+/* listing playlists in profile */
+.playlistlist{
 	width: 80%;
 	box-shadow:5px 5px #8C8C8C;
 	border: 1px solid #8C8C8C;

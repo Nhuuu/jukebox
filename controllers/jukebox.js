@@ -26,14 +26,14 @@ var db = require('../models');
 
   // NHUUUUU
 // router.get('/jkbx', (req, res) => {   
-//   db.partyUsers.find{
+//   db.playlistUsers.find{
 //    where: {
 //     id: req.user.id
 //   }
 // })})
-//   .then(party => {
-//     res.render('parties/jukebox', {party: party});
-//     console.log(party);
+//   .then(playlist => {
+//     res.render('playlists/jukebox', {playlist: playlist});
+//     console.log(playlist);
 //   })
 
 // })
@@ -46,7 +46,7 @@ var db = require('../models');
 //     spotifyApi.getArtistTopTracks(data.body.artists.items[0].id, 'US')
 //  		.then(function(track){
 //       console.log('we here', track)
-//  		  // res.send('parties/jukebox', { artist: data.body, tracks: track.body.tracks.slice( 0 )});
+//  		  // res.send('playlists/jukebox', { artist: data.body, tracks: track.body.tracks.slice( 0 )});
 //  		})
 //  		.catch(function(err){
 //       console.log(err);

@@ -1,7 +1,7 @@
 <div class="rain">
   <div class="border start">
     <div class="jukebox">
-      <h1 class="join"><%= party.partyname %> - <%= party.token %></h1>
+      <h1 class="join"><%= playlist.partyName %> - <%= playlist.token %></h1>
         <div class="col s12 m4 l8">
         <div class='embed-container'>
           <iframe src="https://open.spotify.com/embed/playlist/59ZbFPES4DQwEjBpWHzrtC" width="1000" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
@@ -14,7 +14,7 @@
 <div class="rain">
   <div class="border start"></div>
     <form method="POST" action="/search" class="col s12">
-    <input name="name" type="hidden" value="<%= party.partyname %>">
+    <input name="name" type="hidden" value="<%= playlist.partyName %>">
 			<button class="btn waves-effect waves-light grey darken-4" type="submit">Track Search
 					<i class="material-icons right">send</i>
 				</button>

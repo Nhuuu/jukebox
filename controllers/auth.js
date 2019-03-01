@@ -48,7 +48,7 @@ router.get('/login', (req, res) => {
 
 
 router.post('/login', passport.authenticate('local', {
-	successRedirect: '/party',
+	successRedirect: '/playlist',
 	successFlash: 'Yay, login successful!',
 	failureRedirect: '/auth/login',
 	failureFlash: 'Invalid Credentials'
@@ -74,7 +74,7 @@ router.post('/signup', (req, res) => {
 		.spread((user, created) => {
 			if(created){
 				req.flash('success', 'Yay! Good job! You signed up!');
-				res.redirect('/party'); 
+				res.redirect('/playlist'); 
 			}
 			else {
 				req.flash('error', 'Username already in use!');
@@ -116,8 +116,8 @@ router.get('/logout', (req, res) => {
 // // Why was this get?
 // router.get('/spotify/callback', passport.authenticate('spotify', { failureRedirect: 'auth/login' }),
 //   function(req, res) {
-//     // Successful authentication, redirect to the party.
-//     res.redirect('/party');
+//     // Successful authentication, redirect to the playlist.
+//     res.redirect('/playlist');
 //   }
 // );
 

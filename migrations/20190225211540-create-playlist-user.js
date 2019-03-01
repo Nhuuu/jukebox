@@ -1,14 +1,14 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('partyUsers', {
+    return queryInterface.createTable('playlistUsers', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      partyId: {
+      playlistId: {
         type: Sequelize.INTEGER
       },
       userId: {
@@ -25,6 +25,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('partyUsers');
+    return queryInterface.dropTable('playlistUsers');
   }
 };

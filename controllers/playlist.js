@@ -58,25 +58,25 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 //Display the form once you're signed in or logged in
 router.get('/', (req, res) => {   
-    res.render('parties/new');
+    res.render('playlists/new');
 })
 
-// POST route to create a new party and redirect to jukebox using partyId
+// POST route to create a new playlist and redirect to jukebox using playlistId
 router.post('/', (req, res) => {
-  // var playlist = JSON.stringify(req.body.partyname)
+  // var playlist = JSON.stringify(req.body.partyName)
   db.user.findOne({
     where: {id: req.user.id}
   })
   .then(user => {
-    db.party.findOrCreate({
+    db.playlist.findOrCreate({
       where: {
-        partyname: req.body.partyname,
+        partyName: req.body.partyName,
         token: req.body.token 
       }
     })
-    .spread((party, created) => {
-      user.addParty(party)
-      .then(party => {
+    .spread((playlist, created) => {
+      user.addPlaylist(playlist)
+      .then(playlist => {
         // spotifyApi.getUser('nutrinbar')
         // .then(data => {
         //   console.log('Some information about this user to return', data.body);
@@ -89,7 +89,7 @@ router.post('/', (req, res) => {
         // }, (err) => {
         //   console.log('Something went wrong finding the user!', err);
         // })        
-        res.redirect(`party/guest?token=${req.body.token}&action=`)
+        res.redirect(`playlist/guest?token=${req.body.token}&action=`)
       })
       .catch(err => {
         console.log("error 1", err)
@@ -105,21 +105,21 @@ router.post('/', (req, res) => {
 })
 
 router.get('/test', (req, res) => {
-  res.render('parties/testplayer');
+  res.render('playlists/testplayer');
 })
 
-// Get party and all songs for jukebox when token is entered.
-// Add tracks to playlist/partyname
+// Get playlist and all songs for jukebox when token is entered.
+// Add tracks to playlist/partyName
 router.get('/guest', (req, res) => {
-  db.party.findOne({
+  db.playlist.findOne({
     where: { token: req.query.token },
   })
-  .then(party => {
+  .then(playlist => {
     db.song.findAll({
-      where: { partyId: party.id } //check this
+      where: { playlistId: playlist.id } 
     })
     .then(foundSongs => {
-      res.render('parties/guest', { party: party, songs: foundSongs })
+      res.render('playlists/guest', { playlist: playlist, songs: foundSongs })
     })
     .catch(err => {
       console.log('Error finding songs', err)
@@ -131,7 +131,7 @@ router.get('/guest', (req, res) => {
 })
 
 // router.post('/guest', loggedIn, (req, res) => {
-//   db.party.findOne({
+//   db.playlist.findOne({
 //     where: { token: req.body.token },
 //     include: [db.song]
 //   })
@@ -140,32 +140,32 @@ router.get('/guest', (req, res) => {
 //       where:{ 
 //         artist: req.body.artist,
 //         title: req.body.title,
-//         partyId: req.body.partyId 
+//         playlistId: req.body.playlistId 
 //       }
 //     })
 //     .spread(song, created{
-//       party.addSongs(song)
+//       playlist.addSongs(song)
     
 //     })
 //     console.log('Retrieved playlists', data.body);
 //   },function(err) {
 //     console.log('Something went wrong!', err);
 //   });
-// 	res.redirect(`party/guest?token=${req.body.token}&action=`);
+// 	res.redirect(`playlist/guest?token=${req.body.token}&action=`);
 // });
 
 router.get('/host', (req, res) => {
-  db.party.findOne({
+  db.playlist.findOne({
     where: { token: req.body.token },
   })
-  .then(party => {
-    db.party.findAll({
+  .then(playlist => {
+    db.playlist.findAll({
       where: {
         token: req.body.token
     } 
     })
     .then(foundSongs => {
-      res.render('parties/host', { party: party })
+      res.render('playlists/host', { playlist: playlist })
       console.log("getthisshitttttt")
     })
     .catch(err => {

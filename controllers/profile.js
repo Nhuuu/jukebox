@@ -24,7 +24,7 @@ spotifyApi
 // var credentials = {
 //   clientId: process.env.SPOTIFY_API_CLIENT_ID,
 //   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-//   redirectUri: 'https://partyjukebox.herokuapp.com/'
+//   redirectUri: 'https://playlistjukebox.herokuapp.com/'
 // };
 // var spotifyApi = new SpotifyWebApi(credentials);
 // // var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
@@ -57,25 +57,25 @@ spotifyApi
 //   }
 // )
 
-// Add song to party
+// Add song to playlist
 router.post('/', loggedIn, (req, res) => {
 	db.user.findOne({
     where: {id: req.user.id}
   })
   .then(user => {
-    db.party.findOne({
+    db.playlist.findOne({
       where: {
-        partyname: req.body.partyname,
+        partyName: req.body.partyName,
         token: req.body.token 
       }
     })
-    .spread((party, created) => {
-      user.addParty(party)
-      .then(party => {
+    .spread((playlist, created) => {
+      user.addPlaylist(playlist)
+      .then(playlist => {
         spotifyApi.createPlaylist(playlist, { 'public' : true })
         .then(data => {
           console.log('Created playlist!');
-          res.redirect(`party/jukebox?token=${req.body.token}&action=`) 
+          res.redirect(`playlist/jukebox?token=${req.body.token}&action=`) 
         }, (err) => {
           console.log('Something went wrong!', err);
         })
@@ -98,9 +98,9 @@ router.get('/', loggedIn, (req, res) =>{
 		where: { id: req.user.id },
 	})
 	.then(function(user){
-    user.getParties()
-    .then(function(parties){
-      res.render('profile', {parties: parties})
+    user.getPlaylists()
+    .then(function(playlists){
+      res.render('profile', {playlists: playlists})
     })
 	})
 	.catch(function(err){
@@ -114,31 +114,33 @@ router.get('/', loggedIn, (req, res) =>{
 // 	spotifyApi.getUserPlaylists('nutrinbar')
 //   .then(function(data) {
 //     console.log('Retrieved playlists', data.body);
-//     res.render('parties/guest', {party: data});
+//     res.render('playlists/guest', {playlist: data});
 //   },function(err) {
 //     console.log('Something went wrong!', err);
 //   });
 
 router.post('/add', loggedIn, (req, res) => {
   console.log('search and adding song route', req.body)
-  db.party.findOne({
+  db.playlist.findOne({
     where: { 
-      partyname: req.body.partyname
+      partyName: req.body.partyName
     }
   })
-  .then(party => {
+  .then(playlist => {
     db.song.findOrCreate({
       where:{ 
+        imageUrl: req.body.imageUrl,
         artist: req.body.artist,
         title: req.body.title,
-        partyId: req.body.partyId 
+        spotifyId: req.body.spotifyId,
+        playlistId: req.body.playlistId 
       }
     })
     .spread(function(newSong, created){
-      party.addSong(newSong)
+      playlist.addSong(newSong)
       })
-    .then(function(party){
-      res.render('parties/guest', {party: req.body});
+    .then(function(playlist){
+      res.render('playlists/guest', {playlist: req.body});
     })
     .catch(function(err){
       console.log(err);
@@ -157,17 +159,17 @@ router.post('/add', loggedIn, (req, res) => {
   //   where: {id: req.user.id}
   // })
   // .then(user => {
-  //   db.party.findOrCreate({
+  //   db.playlist.findOrCreate({
   //     where: {
-  //       partyname: req.body.partyname,
+  //       partyName: req.body.partyName,
   //       token: req.body.token 
   //     }
   //   })
-  //   .spread((party, created) => {
-  //     user.addParty(party)
-  //     .then(party => {
+  //   .spread((playlist, created) => {
+  //     user.addPlaylist(playlist)
+  //     .then(playlist => {
 	// 			res.render('profile');
-  //       res.redirect(`party/host?token=${req.body.token}&action=`) 
+  //       res.redirect(`playlist/host?token=${req.body.token}&action=`) 
   //     })
   //     .catch(err => {
   //       console.log("error 1", err)
