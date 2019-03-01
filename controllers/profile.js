@@ -119,35 +119,6 @@ router.get('/', loggedIn, (req, res) =>{
 //     console.log('Something went wrong!', err);
 //   });
 
-router.post('/add', loggedIn, (req, res) => {
-  console.log('search and adding song route', req.body)
-  db.playlist.findOne({
-    where: { 
-      partyName: req.body.partyName
-    }
-  })
-  .then(playlist => {
-    db.song.findOrCreate({
-      where:{ 
-        imageUrl: req.body.imageUrl,
-        artist: req.body.artist,
-        title: req.body.title,
-        spotifyId: req.body.spotifyId,
-        playlistId: req.body.playlistId 
-      }
-    })
-    .spread(function(newSong, created){
-      playlist.addSong(newSong)
-      })
-    .then(function(playlist){
-      res.render('playlists/guest', {playlist: req.body});
-    })
-    .catch(function(err){
-      console.log(err);
-    })
-  })
-})
-  
 
 
 // });

@@ -2,7 +2,7 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
-var SpotifyWebApi = require('spotify-web-api-node');
+// var SpotifyWebApi = require('spotify-web-api-node');
 // var scopes = ['playlist-modify-private', 'app-remote-control', 'user-read-currently-playing', 'playlist-read-private', 'user-modify-playback-state', 'streaming', 'playlist-read-collaborative']
 // var credentials = {
 //   clientId: process.env.SPOTIFY_API_CLIENT_ID,

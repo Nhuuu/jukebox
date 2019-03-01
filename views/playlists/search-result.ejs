@@ -9,7 +9,7 @@
       <p>Album: <span class="trackname"><%= results.items[i].album.name %></span><br>
         Track:  <span class="trackname"><%= results.items[i].track_number %></span>
       </p>
-      <form method="POST" action="/profile/add">
+      <form method="POST" action="/jukebox/add">
       <input name="imageUrl" type="hidden" value="<%= results.items[i].album.images[0].url %>">
       <input name="artist" type="hidden" value="<%= results.items[i].artists[0].name %>">
       <input name="title" type="hidden" value="<%= results.items[i].name %>">

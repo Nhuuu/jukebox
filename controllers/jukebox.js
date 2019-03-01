@@ -2,7 +2,7 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
-
+var loggedIn = require('../middleware/loggedIn');
 // var SpotifyWebApi = require('spotify-web-api-node');
 // var spotifyApi = new SpotifyWebApi();
 
@@ -57,6 +57,36 @@ var db = require('../models');
 // 	});
 // });
 
+//add song to guest.ejs
+router.post('/add', loggedIn, (req, res) => {
+  console.log('search and adding song route', req.body)
+  db.playlist.findOne({
+    where: { 
+      partyName: req.body.partyName
+    }
+  })
+  .then(playlist => {
+    db.song.findOrCreate({
+      where:{ 
+        imageUrl: req.body.imageUrl,
+        artist: req.body.artist,
+        title: req.body.title,
+        spotifyId: req.body.spotifyId,
+        playlistId: req.body.playlistId 
+      }
+    })
+    .spread(function(newSong, created){
+      playlist.addSong(newSong)
+      })
+    .then(function(playlist){
+      res.render('playlists/guest', {playlist: req.body});
+    })
+    .catch(function(err){
+      console.log(err);
+    })
+  })
+})
+  
 router.post('/playlist', (req, res) => {
   console.log('user input', req.body);
   spotifyApi.searchTracks(req.body.title)
