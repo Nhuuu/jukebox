@@ -2,15 +2,28 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
-// var SpotifyWebApi = require('spotify-web-api-node');
+var SpotifyWebApi = require('spotify-web-api-node');
 // var scopes = ['playlist-modify-private', 'app-remote-control', 'user-read-currently-playing', 'playlist-read-private', 'user-modify-playback-state', 'streaming', 'playlist-read-collaborative']
-
 // var credentials = {
 //   clientId: process.env.SPOTIFY_API_CLIENT_ID,
 //   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-//   redirectUri: 'https://partyjukebox.herokuapp.com/'
+//   redirectUri: 'https://localhost:8000'
 // };
+
 // var spotifyApi = new SpotifyWebApi(credentials);
+
+// var spotifyApi = new SpotifyWebApi({
+//   clientId: process.env.SPOTIFY_API_CLIENT_ID,
+//   clientSecret: process.env.SPOTIFY_CLIENT_SECRET
+// });
+
+// // Retrieve an access token
+// spotifyApi
+//   .clientCredentialsGrant()
+//   .then(function(data) {
+//     // Set the access token on the API object so that it's used in all future requests
+//     spotifyApi.setAccessToken(data.body['access_token']);
+//   })
 // var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
 // var code = process.env.SPOTIFY_AUTH_CODE
 
@@ -64,18 +77,18 @@ router.post('/', (req, res) => {
     .spread((party, created) => {
       user.addParty(party)
       .then(party => {
-        spotifyApi.getUser('nutrinbar')
-        .then(data => {
-          console.log('Some information about this user to return', data.body.id);
-          spotifyApi.createPlaylist('playlist', { 'public' : false })
-            .then(data => {
-              console.log('Created playlist!');
-            }, (err) => {
-              console.log('Something went wrong in creating a playlist!', err);
-            })
-        }, (err) => {
-          console.log('Something went wrong finding the user!', err);
-        })        
+        // spotifyApi.getUser('nutrinbar')
+        // .then(data => {
+        //   console.log('Some information about this user to return', data.body);
+        //   // spotifyApi.createPlaylist('playlist', { 'public' : false })
+        //     // .then(data => {
+        //     //   console.log('Created playlist!');
+        //     // }, (err) => {
+        //     //   console.log('Something went wrong in creating a playlist!', err);
+        //     // })
+        // }, (err) => {
+        //   console.log('Something went wrong finding the user!', err);
+        // })        
         res.redirect(`party/guest?token=${req.body.token}&action=`)
       })
       .catch(err => {
