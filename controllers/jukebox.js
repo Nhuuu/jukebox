@@ -78,8 +78,8 @@ router.post('/add', loggedIn, (req, res) => {
     .spread(function(newSong, created){
       playlist.addSong(newSong)
       })
-    .then(function(playlist){
-      res.render('playlists/guest', {playlist: req.body});
+    .then(function(){
+      res.redirect('/jukebox/guest');
     })
     .catch(function(err){
       console.log(err);
@@ -87,6 +87,24 @@ router.post('/add', loggedIn, (req, res) => {
   })
 })
   
+router.get('/guest', (req, res) => {   
+  db.playlist.findOne({
+    where: { 
+      partyName: req.body.partyName
+    }
+  })
+  .then(function(playlist){
+    playlist.getSongs()
+    .then(function(songs){
+      res.render('profile', {songs: songs})
+    })
+	})
+  .catch(err=>{
+    console.log(err)
+  })
+})
+
+
 router.post('/playlist', (req, res) => {
   console.log('user input', req.body);
   spotifyApi.searchTracks(req.body.title)
