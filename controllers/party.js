@@ -27,6 +27,8 @@ var SpotifyWebApi = require('spotify-web-api-node');
 // var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
 // var code = process.env.SPOTIFY_AUTH_CODE
 
+// var code = process.env.SPOTIFY_AUTH_CODE;
+
 // spotifyApi.authorizationCodeGrant(code).then(
 //   function(data) {
 //     console.log('The token expires in ' + data.body['expires_in']);
@@ -127,6 +129,30 @@ router.get('/guest', (req, res) => {
     console.log('Error using token to get jukebox', err)
   })
 })
+
+// router.post('/guest', loggedIn, (req, res) => {
+//   db.party.findOne({
+//     where: { token: req.body.token },
+//     include: [db.song]
+//   })
+//   .then(data => {
+//     db.song.findOrCreate({
+//       where:{ 
+//         artist: req.body.artist,
+//         title: req.body.title,
+//         partyId: req.body.partyId 
+//       }
+//     })
+//     .spread(song, created{
+//       party.addSongs(song)
+    
+//     })
+//     console.log('Retrieved playlists', data.body);
+//   },function(err) {
+//     console.log('Something went wrong!', err);
+//   });
+// 	res.redirect(`party/guest?token=${req.body.token}&action=`);
+// });
 
 router.get('/host', (req, res) => {
   db.party.findOne({

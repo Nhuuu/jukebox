@@ -16,7 +16,7 @@ var db = require('../models');
 // });
 
 
-// // Retrieve an access token
+// Retrieve an access token
 // spotifyApi
 //   .clientCredentialsGrant()
 //   .then(function(data) {
