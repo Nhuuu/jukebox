@@ -1,4 +1,4 @@
-<h3><%= partytoken.name %></h3>
+<h3><%= partyname.name %></h3>
 
 <% for(var i=0; i<results.items.length; i++) { %>
 <ul class="collection">
@@ -11,6 +11,7 @@
       <form method="POST" action="/profile/add">
       <input name="name" type="hidden" value="<%= results.items[i].name %>">
       <input name="id" type="hidden" value="<%= results.items[i].id %>">
+      <input name="partyname" type="hidden" value="<%= partyname.name %>">
       <button class="secondary-content cardcolor" type="submit" ><i class="material-icons">library_add</i></button>
   </form>
     </li>

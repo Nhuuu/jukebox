@@ -2,44 +2,44 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
-var SpotifyWebApi = require('spotify-web-api-node');
+// var SpotifyWebApi = require('spotify-web-api-node');
 // var scopes = ['playlist-modify-private', 'app-remote-control', 'user-read-currently-playing', 'playlist-read-private', 'user-modify-playback-state', 'streaming', 'playlist-read-collaborative']
 
-var credentials = {
-  clientId: process.env.SPOTIFY_API_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: 'https://partyjukebox.herokuapp.com/'
-};
-var spotifyApi = new SpotifyWebApi(credentials);
+// var credentials = {
+//   clientId: process.env.SPOTIFY_API_CLIENT_ID,
+//   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+//   redirectUri: 'https://partyjukebox.herokuapp.com/'
+// };
+// var spotifyApi = new SpotifyWebApi(credentials);
 // var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
 // var code = process.env.SPOTIFY_AUTH_CODE
 
-var code = process.env.SPOTIFY_AUTH_CODE;
+// var code = process.env.SPOTIFY_AUTH_CODE;
 
-spotifyApi.authorizationCodeGrant(code).then(
-  function(data) {
-    console.log('The token expires in ' + data.body['expires_in']);
-    console.log('The access token is ' + data.body['access_token']);
-    console.log('The refresh token is ' + data.body['refresh_token']);
-    // Set the access token on the API object to use it in later calls
-    spotifyApi.setAccessToken(data.body['access_token']);
-    spotifyApi.setRefreshToken(data.body['refresh_token']);
-  },
-  function(err) {
-    console.log('Something went wrong with authorization!', err);
-  }
-);
+// spotifyApi.authorizationCodeGrant(code).then(
+//   function(data) {
+//     console.log('The token expires in ' + data.body['expires_in']);
+//     console.log('The access token is ' + data.body['access_token']);
+//     console.log('The refresh token is ' + data.body['refresh_token']);
+//     // Set the access token on the API object to use it in later calls
+//     spotifyApi.setAccessToken(data.body['access_token']);
+//     spotifyApi.setRefreshToken(data.body['refresh_token']);
+//   },
+//   function(err) {
+//     console.log('Something went wrong with authorization!', err);
+//   }
+// );
 
-// Refresh token 
-spotifyApi.refreshAccessToken().then(
-  function(data) {
-    console.log('The access token has been refreshed!');
-    spotifyApi.setAccessToken(data.body['access_token']);
-  },
-  function(err) {
-    console.log('Could not refresh the token!', err.message);
-  }
-)
+// // Refresh token 
+// spotifyApi.refreshAccessToken().then(
+//   function(data) {
+//     console.log('The access token has been refreshed!');
+//     spotifyApi.setAccessToken(data.body['access_token']);
+//   },
+//   function(err) {
+//     console.log('Could not refresh the token!', err.message);
+//   }
+// )
 
 
 

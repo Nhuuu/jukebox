@@ -49,21 +49,7 @@ app.get('/', (req, res) => {
 });
 
 
-// var spotifyApi = new SpotifyWebApi({
-//   clientId: process.env.SPOTIFY_API_CLIENT_ID,
-//   clientSecret: process.env.SPOTIFY_CLIENT_SECRET
-// });
-// // Retrieve an access token
-// spotifyApi
-//   .clientCredentialsGrant()
-//   .then(function(data) {
-//     console.log('give me the mother fucking token bitch!', data)
-//     // Set the access token on the API object so that it's used in all future requests
-//     spotifyApi.setAccessToken(data.body['access_token']);
-//     console.log('The access token expires in ' + data.body['expires_in']);
-//   })
-
-// // request token and start timeout loop
+// request token and start timeout loop
 // var tokenExpirationEpoch;
 // var numberOfTimesUpdated = 0;
 
