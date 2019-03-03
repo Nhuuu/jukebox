@@ -2,13 +2,22 @@
   <div class="border start">
     <div class="jukebox">
       <h1 class="join"><%= playlist.partyName %> - <%= playlist.token %></h1>
-      <%songs.forEach(function(song)){%>
-        <%=song.title%>
-      <%});%>
+      <div class="col s12 m4 l8">
+      <div class='embed-container'>
+        <iframe src="https://open.spotify.com/embed/playlist/59ZbFPES4DQwEjBpWHzrtC" width="1000" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+      </div>
+    </div>
     </div>
   </div> 
 </div>
-
+<div>
+  <h4 class="songlist">List of Songs You Added:</h4>
+  <%songs.forEach(function(song){%>
+    <ul class="songlist">
+      <li><%=song.title%>, by <%=song.artist%></li>
+    </ul>
+  <%});%>
+</div>
 <div class="rain">
   <div class="border start"></div>
     <form method="POST" action="/search" class="col s12">

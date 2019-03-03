@@ -125,14 +125,6 @@ nav .brand-logo {
 	background: #eee;
 } */
 
-/* .queue-box{
-	width: 600px;
-	background-color: #3B3B3B;
-	color: white;
-	border-radius: 10px;
-	box-shadow:5px 5px #8C8C8C;
-	padding: 5px;
-} */
 
 
 /* Search form and jukebox */
@@ -142,6 +134,7 @@ nav .brand-logo {
 	height: 170px;
 	width: 320px;
 } */
+
 /* Layout with mask */
 .rain{
 	padding: 10px 12px 12px 10px;
@@ -323,3 +316,22 @@ form input {
 	border-radius: 5px;
 }
 
+.songlist{
+	text-align: center;
+}
+
+
+.page-footer {
+	background-color: black !important;	
+	position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+	height: 200px;
+
+}
+.white-text{
+	color: white;
+	text-align: center;
+}

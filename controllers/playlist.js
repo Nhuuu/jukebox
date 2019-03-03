@@ -77,6 +77,7 @@ router.post('/', (req, res) => {
     .spread((playlist, created) => {
       user.addPlaylist(playlist)
       .then(playlist => {
+        
         // spotifyApi.getUser('nutrinbar')
         // .then(data => {
         //   console.log('Some information about this user to return', data.body);
@@ -90,6 +91,7 @@ router.post('/', (req, res) => {
         //   console.log('Something went wrong finding the user!', err);
         // })        
         res.redirect(`playlist/guest?token=${req.body.token}&action=`)
+        // res.render('playlists/host', {playist: playlist})
       })
       .catch(err => {
         console.log("error 1", err)
@@ -102,10 +104,6 @@ router.post('/', (req, res) => {
   .catch(err => {
     console.log("error 3", err)
   })
-})
-
-router.get('/test', (req, res) => {
-  res.render('playlists/testplayer');
 })
 
 // Get playlist and all songs for jukebox when token is entered.
@@ -154,28 +152,19 @@ router.get('/guest', (req, res) => {
 // 	res.redirect(`playlist/guest?token=${req.body.token}&action=`);
 // });
 
-router.get('/host', (req, res) => {
-  db.playlist.findOne({
-    where: { token: req.body.token },
-  })
-  .then(playlist => {
-    db.playlist.findAll({
-      where: {
-        token: req.body.token
-    } 
-    })
-    .then(foundSongs => {
-      res.render('playlists/host', { playlist: playlist })
-      console.log("getthisshitttttt")
-    })
-    .catch(err => {
-      console.log('Error finding songs', err)
-    })
-  })
-  .catch(err => {
-    console.log('Error using token to get jukebox', err)
-  })
-})
+// router.get('/host', (req, res) => {
+//   console.log('is there token?', req.body)
+//   db.playlist.findOne({
+//     where: { token: req.body.token },
+//   })
+//   .then(playlist => {
+//     console.log('teswting now blah', playlist)
+//     res.render('playlists/host', { playlist: playlist })
+//   })
+//   .catch(err => {
+//     console.log('Error finding songs', err)
+//   })
+// })
 
 
 module.exports = router;

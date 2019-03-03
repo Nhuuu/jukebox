@@ -2,7 +2,7 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
-var loggedIn = require('../middleware/loggedIn');
+
 // var SpotifyWebApi = require('spotify-web-api-node');
 // var spotifyApi = new SpotifyWebApi();
 
@@ -24,7 +24,7 @@ var loggedIn = require('../middleware/loggedIn');
 //     spotifyApi.setAccessToken(data.body['access_token']);
 //   })
 
-  // NHUUUUU
+// NHUUUUU
 // router.get('/jkbx', (req, res) => {   
 //   db.playlistUsers.find{
 //    where: {
@@ -58,7 +58,7 @@ var loggedIn = require('../middleware/loggedIn');
 // });
 
 //add song to guest.ejs
-router.post('/add', loggedIn, (req, res) => {
+router.post('/add', (req, res) => {
   console.log('search and adding song route', req.body)
   db.playlist.findOne({
     where: { 
@@ -76,14 +76,20 @@ router.post('/add', loggedIn, (req, res) => {
       }
     })
     .spread(function(newSong, created){
-      playlist.addSong(newSong)
+      playlist.addSong(newSong)  
+      .then(function(){
+        res.redirect('/jukebox/guest');
       })
-    .then(function(){
-      res.redirect('/jukebox/guest');
+      .catch(function(err){
+        console.log(err);
+      })
     })
-    .catch(function(err){
-      console.log(err);
+    .catch(err => {
+      console.log(err)
     })
+  })
+  .catch(err => {
+    console.log(err)
   })
 })
   
@@ -96,7 +102,10 @@ router.get('/guest', (req, res) => {
   .then(function(playlist){
     playlist.getSongs()
     .then(function(songs){
-      res.render('profile', {songs: songs})
+      res.render('playlists/guest', {songs: songs})
+    })
+    .catch(err=>{
+      console.log(err)
     })
 	})
   .catch(err=>{
@@ -104,16 +113,4 @@ router.get('/guest', (req, res) => {
   })
 })
 
-
-router.post('/playlist', (req, res) => {
-  console.log('user input', req.body);
-  spotifyApi.searchTracks(req.body.title)
-    .then(function(data) {
-      console.log('user title search:', data.body);
-    }, function(err) {
-      console.error(err);
-    });
-  });
-
-
-  module.exports = router;
+module.exports = router;
